@@ -1,4 +1,4 @@
-package bms;
+package m.bmspuls.bmspuls;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,8 +11,8 @@ public class BmspulsApplicationTests {
 
     @Test
     public void contextLoads() {
-        System.out.println("1111");
-        System.out.println("ll");
+
+        System.out.println("ok");
     }
 
 }
