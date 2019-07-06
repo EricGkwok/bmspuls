@@ -31,6 +31,12 @@
     <script src="vue/vue.min.js"></script>
     <!--vue-->
     <title>店铺列表</title>
+    <style>
+        #div1 {
+            margin-top: 8px;
+            margin-bottom: 8px;
+        }
+    </style>
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span
@@ -42,36 +48,55 @@
 
 
 <div class="page-container">
-    <div class="text-c">
-        <button onclick="removeIframe()" class="btn btn-primary radius">关闭选项卡
-        </button>
-        <span class="select-box inline">
-		<select name="" class="select">
-			<option value="0">全部分类</option>
-			<option value="1">分类一</option>
-			<option value="2">分类二</option>
-		</select>
-		</span> 日期范围：
-        <input type="text"
-               onfocus="WdatePicker({ maxDate:'#F{$dp.$D(\'logmax\')||\'%y-%M-%d\'}' })"
-               id="logmin" class="input-text Wdate" style="width:120px;">
-        -
-        <input type="text"
-               onfocus="WdatePicker({ minDate:'#F{$dp.$D(\'logmin\')}',maxDate:'%y-%M-%d' })"
-               id="logmax" class="input-text Wdate" style="width:120px;">
-        <input type="text" name="" id="" placeholder=" 资讯名称" style="width:250px"
-               class="input-text">
-        <button name="" id="" class="btn btn-success" type="submit"><i
-                class="Hui-iconfont">&#xe665;</i> 搜资讯
-        </button>
-    </div>
+    <!--多条件查询/-->
+    <form action="" id="selForm">
+        <div class="text-c" >
+            <div>
+                店铺编号:&nbsp;<input type="text" name="shopId" placeholder=" 店铺编号"
+                                  style="width:250px"
+                                  class="input-text">
+                店铺名称:&nbsp;<input type="text" name="shopName"
+                                  placeholder=" 店铺名称"
+                                  style="width:250px"
+                                  class="input-text">
+                店铺简称:&nbsp;<input type="text" name="shortName"
+                                  placeholder=" 店铺简称"
+                                  style="width:250px"
+                                  class="input-text">
+            </div>
+            <div id="div1">
+                &nbsp;店铺账号:&nbsp;<input type="text" name="account"
+                                        placeholder=" 店铺账号"
+                                        style="width:250px"
+                                        class="input-text">
+                营业执照:&nbsp;<input type="text" name="shopLicense"
+                                  placeholder=" 营业执照号"
+                                  style="width:250px"
+                                  class="input-text">
+                <span class="inline">店铺状态:&nbsp;</span>
+                <select name="showStatus" class="select" style="width:250px"
+                        class="input-text">
+                    <option value="1" class="input-text">启用</option>
+                    <option value="0" class="input-text">禁用</option>
+                </select>
+            </div>
+            <button class="btn btn-success" type="submit">
+                <i class="Hui-iconfont">&#xe665;</i> 查询
+            </button>
+            <button onclick="removeIframe()" class="btn btn-primary radius">
+                关闭选项卡
+            </button>
+        </div>
+    </form>
+    <!--多条件查询/-->
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a
             href="javascript:;" onclick="datadel()"
-            class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a
-            class="btn btn-primary radius" data-title="添加资讯"
-            data-href="article-add.html" onclick="Hui_admin_tab(this)"
+            class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i>批量删除</a> <a
+            class="btn btn-primary radius" data-title="新增"
+            data-href="business-add.html" onclick="Hui_admin_tab(this)"
             href="javascript:;"><i
-            class="Hui-iconfont">&#xe600;</i> 添加资讯</a></span> <span class="r">共有数据：<strong>54</strong> 条</span>
+            class="Hui-iconfont">&#xe600;</i>新增</a></span> <span class="r">
+        共有数据：<strong>54</strong> 条</span>
     </div>
 
 
@@ -156,15 +181,15 @@
     });
 
     /*---------------------------------------------------------------------*/
-    $('.table-sort').dataTable({
-        "aaSorting": [[1, "desc"]],//默认第几个排序
-        "bStateSave": true,//状态保存
-        "pading": false,
-        "aoColumnDefs": [
-            //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-            {"orderable": false, "aTargets": [0, 8]}// 不参与排序的列
-        ]
-    });
+    // $('.table-sort').dataTable({
+    //     "aaSorting": [[1, "desc"]],//默认第几个排序
+    //     "bStateSave": true,//状态保存
+    //     "pading": false,
+    //     "aoColumnDefs": [
+    //         //{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+    //         {"orderable": false, "aTargets": [0, 8]}// 不参与排序的列
+    //     ]
+    // });
 
     /*资讯-添加*/
     function article_add(title, url, w, h) {
