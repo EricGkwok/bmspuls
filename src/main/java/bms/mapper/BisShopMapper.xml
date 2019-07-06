@@ -394,8 +394,52 @@
     </update>
 
     <!--search for all shops-->
-    <select id="findAllShops" resultMap="BaseResultMap">
+    <select id="findAllShops" resultMap="shops_map">
       select * from bis_shop
     </select>
+    <resultMap id="shops_map" type="bms.entity.BisShop">
+        <id column="shop_id" jdbcType="VARCHAR" property="shopId"/>
+        <result column="owner_id" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
+        <result column="month_cash_in" jdbcType="DOUBLE"
+                property="monthCashIn"/>
+        <result column="month_expend_in" jdbcType="DOUBLE"
+                property="monthExpendIn"/>
+        <result column="shop_license" jdbcType="VARCHAR"
+                property="shopLicense"/>
+        <result column="shop_image" jdbcType="VARCHAR" property="shopImage"/>
+        <result column="shop_detail_image" jdbcType="VARCHAR"
+                property="shopDetailImage"/>
+        <result column="gps_x" jdbcType="DOUBLE" property="gpsX"/>
+        <result column="gps_y" jdbcType="DOUBLE" property="gpsY"/>
+        <result column="sort_no" jdbcType="INTEGER" property="sortNo"/>
+        <result column="shop_address" jdbcType="VARCHAR"
+                property="shopAddress"/>
+        <result column="shop_qrcode" jdbcType="VARCHAR" property="shopQrcode"/>
+        <result column="shop_phone" jdbcType="VARCHAR" property="shopPhone"/>
+        <result column="shop_area" jdbcType="DOUBLE" property="shopArea"/>
+        <result column="shop_project" jdbcType="VARCHAR"
+                property="shopProject"/>
+        <result column="shop_type" jdbcType="VARCHAR" property="shopType"/>
+        <result column="shop_intro" jdbcType="LONGVARCHAR"
+                property="shopIntro"/>
+        <result column="show_status" jdbcType="VARCHAR" property="showStatus"/>
+        <result column="is_del" jdbcType="VARCHAR" property="isDel"/>
+        <result column="shop_remark" jdbcType="VARCHAR" property="shopRemark"/>
+        <result column="begin_time" jdbcType="VARCHAR" property="beginTime"/>
+        <result column="end_time" jdbcType="VARCHAR" property="endTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP"
+                property="createTime"/>
+        <result column="create_user_id" jdbcType="VARCHAR"
+                property="createUserId"/>
+        <result column="modify_time" jdbcType="TIMESTAMP"
+                property="modifyTime"/>
+        <result column="modify_user_id" jdbcType="VARCHAR"
+                property="modifyUserId"/>
+        <association property="bisShopUser" column="shop_id"
+                     javaType="bms.entity.BisShopUser"
+        select="bms.mapper.BisShopUserMapper.getOwnerByShopId"/>
+    </resultMap>
     <!--search for all shops/-->
 </mapper>

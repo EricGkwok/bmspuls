@@ -339,4 +339,11 @@
       modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
     where shop_user_id = #{shopUserId,jdbcType=VARCHAR}
   </update>
+
+  <!--查询店主账号,姓名-->
+    <select id="getOwnerByShopId" resultType="bms.entity.BisShopUser">
+      select account,username from bis_shop_user where user_type = 1 and
+      shop_id is null
+    </select>
+  <!--查询店主账号,姓名-->
 </mapper>

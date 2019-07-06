@@ -1,8 +1,9 @@
 package bms.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * Created with IntelliJ IDEA.
