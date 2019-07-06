@@ -15,15 +15,15 @@ import java.util.List;
 public class BmspulsApplicationTests {
     @Autowired
     SysUserRepository sysUserRepository;
+
     @Test
     public void contextLoads() {
         List<SysUser> all = sysUserRepository.findAll();
-        for (SysUser s : all){
+        for (SysUser s : all) {
             System.out.println(s);
         }
         System.out.println("ok");
 
-        System.out.println("ok");
     }
 
 }
