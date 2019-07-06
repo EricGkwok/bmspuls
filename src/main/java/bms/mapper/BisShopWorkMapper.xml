@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bms.mapper.BisShopWorkMapper">
+  <resultMap id="BaseResultMap" type="bms.entity.BisShopWork">
+    <!--@mbg.generated-->
+    <id column="work_id" jdbcType="VARCHAR" property="workId" />
+    <result column="shop_id" jdbcType="VARCHAR" property="shopId" />
+    <result column="shop_ip" jdbcType="VARCHAR" property="shopIp" />
+    <result column="work_password" jdbcType="VARCHAR" property="workPassword" />
+    <result column="whether_set" jdbcType="VARCHAR" property="whetherSet" />
+    <result column="work_sn" jdbcType="VARCHAR" property="workSn" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_user_id" jdbcType="VARCHAR" property="createUserId" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="modify_user_id" jdbcType="VARCHAR" property="modifyUserId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    work_id, shop_id, shop_ip, work_password, whether_set, work_sn, create_time, create_user_id, 
+    modify_time, modify_user_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from bis_shop_work
+    where work_id = #{workId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from bis_shop_work
+    where work_id = #{workId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="work_id" keyProperty="workId" parameterType="bms.entity.BisShopWork" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into bis_shop_work (shop_id, shop_ip, work_password, 
+      whether_set, work_sn, create_time, 
+      create_user_id, modify_time, modify_user_id
+      )
+    values (#{shopId,jdbcType=VARCHAR}, #{shopIp,jdbcType=VARCHAR}, #{workPassword,jdbcType=VARCHAR}, 
+      #{whetherSet,jdbcType=VARCHAR}, #{workSn,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{modifyUserId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="work_id" keyProperty="workId" parameterType="bms.entity.BisShopWork" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into bis_shop_work
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="shopIp != null">
+        shop_ip,
+      </if>
+      <if test="workPassword != null">
+        work_password,
+      </if>
+      <if test="whetherSet != null">
+        whether_set,
+      </if>
+      <if test="workSn != null">
+        work_sn,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createUserId != null">
+        create_user_id,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="modifyUserId != null">
+        modify_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="shopId != null">
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopIp != null">
+        #{shopIp,jdbcType=VARCHAR},
+      </if>
+      <if test="workPassword != null">
+        #{workPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="whetherSet != null">
+        #{whetherSet,jdbcType=VARCHAR},
+      </if>
+      <if test="workSn != null">
+        #{workSn,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserId != null">
+        #{modifyUserId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bms.entity.BisShopWork">
+    <!--@mbg.generated-->
+    update bis_shop_work
+    <set>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopIp != null">
+        shop_ip = #{shopIp,jdbcType=VARCHAR},
+      </if>
+      <if test="workPassword != null">
+        work_password = #{workPassword,jdbcType=VARCHAR},
+      </if>
+      <if test="whetherSet != null">
+        whether_set = #{whetherSet,jdbcType=VARCHAR},
+      </if>
+      <if test="workSn != null">
+        work_sn = #{workSn,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUserId != null">
+        modify_user_id = #{modifyUserId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where work_id = #{workId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bms.entity.BisShopWork">
+    <!--@mbg.generated-->
+    update bis_shop_work
+    set shop_id = #{shopId,jdbcType=VARCHAR},
+      shop_ip = #{shopIp,jdbcType=VARCHAR},
+      work_password = #{workPassword,jdbcType=VARCHAR},
+      whether_set = #{whetherSet,jdbcType=VARCHAR},
+      work_sn = #{workSn,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+    where work_id = #{workId,jdbcType=VARCHAR}
+  </update>
+</mapper>

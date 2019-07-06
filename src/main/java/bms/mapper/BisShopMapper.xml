@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bms.mapper.BisShopMapper">
+    <resultMap id="BaseResultMap" type="bms.entity.BisShop">
+        <!--@mbg.generated-->
+        <id column="shop_id" jdbcType="VARCHAR" property="shopId"/>
+        <result column="owner_id" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
+        <result column="month_cash_in" jdbcType="DOUBLE"
+                property="monthCashIn"/>
+        <result column="month_expend_in" jdbcType="DOUBLE"
+                property="monthExpendIn"/>
+        <result column="shop_license" jdbcType="VARCHAR"
+                property="shopLicense"/>
+        <result column="shop_image" jdbcType="VARCHAR" property="shopImage"/>
+        <result column="shop_detail_image" jdbcType="VARCHAR"
+                property="shopDetailImage"/>
+        <result column="gps_x" jdbcType="DOUBLE" property="gpsX"/>
+        <result column="gps_y" jdbcType="DOUBLE" property="gpsY"/>
+        <result column="sort_no" jdbcType="INTEGER" property="sortNo"/>
+        <result column="shop_address" jdbcType="VARCHAR"
+                property="shopAddress"/>
+        <result column="shop_qrcode" jdbcType="VARCHAR" property="shopQrcode"/>
+        <result column="shop_phone" jdbcType="VARCHAR" property="shopPhone"/>
+        <result column="shop_area" jdbcType="DOUBLE" property="shopArea"/>
+        <result column="shop_project" jdbcType="VARCHAR"
+                property="shopProject"/>
+        <result column="shop_type" jdbcType="VARCHAR" property="shopType"/>
+        <result column="shop_intro" jdbcType="LONGVARCHAR"
+                property="shopIntro"/>
+        <result column="show_status" jdbcType="VARCHAR" property="showStatus"/>
+        <result column="is_del" jdbcType="VARCHAR" property="isDel"/>
+        <result column="shop_remark" jdbcType="VARCHAR" property="shopRemark"/>
+        <result column="begin_time" jdbcType="VARCHAR" property="beginTime"/>
+        <result column="end_time" jdbcType="VARCHAR" property="endTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP"
+                property="createTime"/>
+        <result column="create_user_id" jdbcType="VARCHAR"
+                property="createUserId"/>
+        <result column="modify_time" jdbcType="TIMESTAMP"
+                property="modifyTime"/>
+        <result column="modify_user_id" jdbcType="VARCHAR"
+                property="modifyUserId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        shop_id, owner_id, shop_name, short_name, month_cash_in,
+        month_expend_in, shop_license,
+        shop_image, shop_detail_image, gps_x, gps_y, sort_no, shop_address,
+        shop_qrcode,
+        shop_phone, shop_area, shop_project, shop_type, shop_intro, show_status,
+        is_del,
+        shop_remark, begin_time, end_time, create_time, create_user_id,
+        modify_time, modify_user_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from bis_shop
+        where shop_id = #{shopId,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        <!--@mbg.generated-->
+        delete from bis_shop
+        where shop_id = #{shopId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="shop_id" keyProperty="shopId"
+            parameterType="bms.entity.BisShop" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into bis_shop (owner_id, shop_name, short_name,
+        month_cash_in, month_expend_in, shop_license,
+        shop_image, shop_detail_image, gps_x,
+        gps_y, sort_no, shop_address,
+        shop_qrcode, shop_phone, shop_area,
+        shop_project, shop_type, shop_intro,
+        show_status, is_del, shop_remark,
+        begin_time, end_time, create_time,
+        create_user_id, modify_time, modify_user_id
+        )
+        values (#{ownerId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR},
+        #{shortName,jdbcType=VARCHAR},
+        #{monthCashIn,jdbcType=DOUBLE}, #{monthExpendIn,jdbcType=DOUBLE},
+        #{shopLicense,jdbcType=VARCHAR},
+        #{shopImage,jdbcType=VARCHAR}, #{shopDetailImage,jdbcType=VARCHAR},
+        #{gpsX,jdbcType=DOUBLE},
+        #{gpsY,jdbcType=DOUBLE}, #{sortNo,jdbcType=INTEGER},
+        #{shopAddress,jdbcType=VARCHAR},
+        #{shopQrcode,jdbcType=VARCHAR}, #{shopPhone,jdbcType=VARCHAR},
+        #{shopArea,jdbcType=DOUBLE},
+        #{shopProject,jdbcType=VARCHAR}, #{shopType,jdbcType=VARCHAR},
+        #{shopIntro,jdbcType=LONGVARCHAR},
+        #{showStatus,jdbcType=VARCHAR}, #{isDel,jdbcType=VARCHAR},
+        #{shopRemark,jdbcType=VARCHAR},
+        #{beginTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP},
+        #{createUserId,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP},
+        #{modifyUserId,jdbcType=VARCHAR}
+        )
+    </insert>
+    <insert id="insertSelective" keyColumn="shop_id" keyProperty="shopId"
+            parameterType="bms.entity.BisShop" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into bis_shop
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="ownerId != null">
+                owner_id,
+            </if>
+            <if test="shopName != null">
+                shop_name,
+            </if>
+            <if test="shortName != null">
+                short_name,
+            </if>
+            <if test="monthCashIn != null">
+                month_cash_in,
+            </if>
+            <if test="monthExpendIn != null">
+                month_expend_in,
+            </if>
+            <if test="shopLicense != null">
+                shop_license,
+            </if>
+            <if test="shopImage != null">
+                shop_image,
+            </if>
+            <if test="shopDetailImage != null">
+                shop_detail_image,
+            </if>
+            <if test="gpsX != null">
+                gps_x,
+            </if>
+            <if test="gpsY != null">
+                gps_y,
+            </if>
+            <if test="sortNo != null">
+                sort_no,
+            </if>
+            <if test="shopAddress != null">
+                shop_address,
+            </if>
+            <if test="shopQrcode != null">
+                shop_qrcode,
+            </if>
+            <if test="shopPhone != null">
+                shop_phone,
+            </if>
+            <if test="shopArea != null">
+                shop_area,
+            </if>
+            <if test="shopProject != null">
+                shop_project,
+            </if>
+            <if test="shopType != null">
+                shop_type,
+            </if>
+            <if test="shopIntro != null">
+                shop_intro,
+            </if>
+            <if test="showStatus != null">
+                show_status,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+            <if test="shopRemark != null">
+                shop_remark,
+            </if>
+            <if test="beginTime != null">
+                begin_time,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="ownerId != null">
+                #{ownerId,jdbcType=VARCHAR},
+            </if>
+            <if test="shopName != null">
+                #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="shortName != null">
+                #{shortName,jdbcType=VARCHAR},
+            </if>
+            <if test="monthCashIn != null">
+                #{monthCashIn,jdbcType=DOUBLE},
+            </if>
+            <if test="monthExpendIn != null">
+                #{monthExpendIn,jdbcType=DOUBLE},
+            </if>
+            <if test="shopLicense != null">
+                #{shopLicense,jdbcType=VARCHAR},
+            </if>
+            <if test="shopImage != null">
+                #{shopImage,jdbcType=VARCHAR},
+            </if>
+            <if test="shopDetailImage != null">
+                #{shopDetailImage,jdbcType=VARCHAR},
+            </if>
+            <if test="gpsX != null">
+                #{gpsX,jdbcType=DOUBLE},
+            </if>
+            <if test="gpsY != null">
+                #{gpsY,jdbcType=DOUBLE},
+            </if>
+            <if test="sortNo != null">
+                #{sortNo,jdbcType=INTEGER},
+            </if>
+            <if test="shopAddress != null">
+                #{shopAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="shopQrcode != null">
+                #{shopQrcode,jdbcType=VARCHAR},
+            </if>
+            <if test="shopPhone != null">
+                #{shopPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="shopArea != null">
+                #{shopArea,jdbcType=DOUBLE},
+            </if>
+            <if test="shopProject != null">
+                #{shopProject,jdbcType=VARCHAR},
+            </if>
+            <if test="shopType != null">
+                #{shopType,jdbcType=VARCHAR},
+            </if>
+            <if test="shopIntro != null">
+                #{shopIntro,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="showStatus != null">
+                #{showStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                #{isDel,jdbcType=VARCHAR},
+            </if>
+            <if test="shopRemark != null">
+                #{shopRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="beginTime != null">
+                #{beginTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyUserId != null">
+                #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="bms.entity.BisShop">
+        <!--@mbg.generated-->
+        update bis_shop
+        <set>
+            <if test="ownerId != null">
+                owner_id = #{ownerId,jdbcType=VARCHAR},
+            </if>
+            <if test="shopName != null">
+                shop_name = #{shopName,jdbcType=VARCHAR},
+            </if>
+            <if test="shortName != null">
+                short_name = #{shortName,jdbcType=VARCHAR},
+            </if>
+            <if test="monthCashIn != null">
+                month_cash_in = #{monthCashIn,jdbcType=DOUBLE},
+            </if>
+            <if test="monthExpendIn != null">
+                month_expend_in = #{monthExpendIn,jdbcType=DOUBLE},
+            </if>
+            <if test="shopLicense != null">
+                shop_license = #{shopLicense,jdbcType=VARCHAR},
+            </if>
+            <if test="shopImage != null">
+                shop_image = #{shopImage,jdbcType=VARCHAR},
+            </if>
+            <if test="shopDetailImage != null">
+                shop_detail_image = #{shopDetailImage,jdbcType=VARCHAR},
+            </if>
+            <if test="gpsX != null">
+                gps_x = #{gpsX,jdbcType=DOUBLE},
+            </if>
+            <if test="gpsY != null">
+                gps_y = #{gpsY,jdbcType=DOUBLE},
+            </if>
+            <if test="sortNo != null">
+                sort_no = #{sortNo,jdbcType=INTEGER},
+            </if>
+            <if test="shopAddress != null">
+                shop_address = #{shopAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="shopQrcode != null">
+                shop_qrcode = #{shopQrcode,jdbcType=VARCHAR},
+            </if>
+            <if test="shopPhone != null">
+                shop_phone = #{shopPhone,jdbcType=VARCHAR},
+            </if>
+            <if test="shopArea != null">
+                shop_area = #{shopArea,jdbcType=DOUBLE},
+            </if>
+            <if test="shopProject != null">
+                shop_project = #{shopProject,jdbcType=VARCHAR},
+            </if>
+            <if test="shopType != null">
+                shop_type = #{shopType,jdbcType=VARCHAR},
+            </if>
+            <if test="shopIntro != null">
+                shop_intro = #{shopIntro,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="showStatus != null">
+                show_status = #{showStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel,jdbcType=VARCHAR},
+            </if>
+            <if test="shopRemark != null">
+                shop_remark = #{shopRemark,jdbcType=VARCHAR},
+            </if>
+            <if test="beginTime != null">
+                begin_time = #{beginTime,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id = #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where shop_id = #{shopId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="bms.entity.BisShop">
+        <!--@mbg.generated-->
+        update bis_shop
+        set owner_id = #{ownerId,jdbcType=VARCHAR},
+        shop_name = #{shopName,jdbcType=VARCHAR},
+        short_name = #{shortName,jdbcType=VARCHAR},
+        month_cash_in = #{monthCashIn,jdbcType=DOUBLE},
+        month_expend_in = #{monthExpendIn,jdbcType=DOUBLE},
+        shop_license = #{shopLicense,jdbcType=VARCHAR},
+        shop_image = #{shopImage,jdbcType=VARCHAR},
+        shop_detail_image = #{shopDetailImage,jdbcType=VARCHAR},
+        gps_x = #{gpsX,jdbcType=DOUBLE},
+        gps_y = #{gpsY,jdbcType=DOUBLE},
+        sort_no = #{sortNo,jdbcType=INTEGER},
+        shop_address = #{shopAddress,jdbcType=VARCHAR},
+        shop_qrcode = #{shopQrcode,jdbcType=VARCHAR},
+        shop_phone = #{shopPhone,jdbcType=VARCHAR},
+        shop_area = #{shopArea,jdbcType=DOUBLE},
+        shop_project = #{shopProject,jdbcType=VARCHAR},
+        shop_type = #{shopType,jdbcType=VARCHAR},
+        shop_intro = #{shopIntro,jdbcType=LONGVARCHAR},
+        show_status = #{showStatus,jdbcType=VARCHAR},
+        is_del = #{isDel,jdbcType=VARCHAR},
+        shop_remark = #{shopRemark,jdbcType=VARCHAR},
+        begin_time = #{beginTime,jdbcType=VARCHAR},
+        end_time = #{endTime,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+        modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+        where shop_id = #{shopId,jdbcType=VARCHAR}
+    </update>
+
+    <!--search for all shops-->
+    <select id="findAllShops" resultMap="BaseResultMap">
+      select * from bis_shop
+    </select>
+    <!--search for all shops/-->
+</mapper>

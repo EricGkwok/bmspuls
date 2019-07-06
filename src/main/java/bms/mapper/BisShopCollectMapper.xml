@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bms.mapper.BisShopCollectMapper">
+  <resultMap id="BaseResultMap" type="bms.entity.BisShopCollect">
+    <!--@mbg.generated-->
+    <id column="collect_id" jdbcType="VARCHAR" property="collectId" />
+    <result column="custom_user_id" jdbcType="VARCHAR" property="customUserId" />
+    <result column="shop_id" jdbcType="VARCHAR" property="shopId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    collect_id, custom_user_id, shop_id, create_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from bis_shop_collect
+    where collect_id = #{collectId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--@mbg.generated-->
+    delete from bis_shop_collect
+    where collect_id = #{collectId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" keyColumn="collect_id" keyProperty="collectId" parameterType="bms.entity.BisShopCollect" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into bis_shop_collect (custom_user_id, shop_id, create_time
+      )
+    values (#{customUserId,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" keyColumn="collect_id" keyProperty="collectId" parameterType="bms.entity.BisShopCollect" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into bis_shop_collect
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customUserId != null">
+        custom_user_id,
+      </if>
+      <if test="shopId != null">
+        shop_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customUserId != null">
+        #{customUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bms.entity.BisShopCollect">
+    <!--@mbg.generated-->
+    update bis_shop_collect
+    <set>
+      <if test="customUserId != null">
+        custom_user_id = #{customUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="shopId != null">
+        shop_id = #{shopId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where collect_id = #{collectId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bms.entity.BisShopCollect">
+    <!--@mbg.generated-->
+    update bis_shop_collect
+    set custom_user_id = #{customUserId,jdbcType=VARCHAR},
+      shop_id = #{shopId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where collect_id = #{collectId,jdbcType=VARCHAR}
+  </update>
+</mapper>
