@@ -22,7 +22,7 @@ public class BisShop implements Serializable {
     /**
      * 店主编号
      */
-    private String ownerId;
+    private String shopUserId;
 
     /**
      * 商店名称

@@ -5,7 +5,7 @@
     <resultMap id="BaseResultMap" type="bms.entity.BisShop">
         <!--@mbg.generated-->
         <id column="shop_id" jdbcType="VARCHAR" property="shopId"/>
-        <result column="owner_id" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="shop_user_id" jdbcType="VARCHAR" property="shopUserId"/>
         <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
         <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
         <result column="month_cash_in" jdbcType="DOUBLE"
@@ -46,7 +46,7 @@
     </resultMap>
     <sql id="Base_Column_List">
         <!--@mbg.generated-->
-        shop_id, owner_id, shop_name, short_name, month_cash_in,
+        shop_id, shop_user_id, shop_name, short_name, month_cash_in,
         month_expend_in, shop_license,
         shop_image, shop_detail_image, gps_x, gps_y, sort_no, shop_address,
         shop_qrcode,
@@ -71,7 +71,7 @@
     <insert id="insert" keyColumn="shop_id" keyProperty="shopId"
             parameterType="bms.entity.BisShop" useGeneratedKeys="true">
         <!--@mbg.generated-->
-        insert into bis_shop (owner_id, shop_name, short_name,
+        insert into bis_shop (shop_user_id, shop_name, short_name,
         month_cash_in, month_expend_in, shop_license,
         shop_image, shop_detail_image, gps_x,
         gps_y, sort_no, shop_address,
@@ -81,7 +81,7 @@
         begin_time, end_time, create_time,
         create_user_id, modify_time, modify_user_id
         )
-        values (#{ownerId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR},
+        values (#{shopUserId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR},
         #{shortName,jdbcType=VARCHAR},
         #{monthCashIn,jdbcType=DOUBLE}, #{monthExpendIn,jdbcType=DOUBLE},
         #{shopLicense,jdbcType=VARCHAR},
@@ -106,8 +106,8 @@
         <!--@mbg.generated-->
         insert into bis_shop
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="ownerId != null">
-                owner_id,
+            <if test="shopUserId != null">
+                shop_user_id,
             </if>
             <if test="shopName != null">
                 shop_name,
@@ -189,8 +189,8 @@
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="ownerId != null">
-                #{ownerId,jdbcType=VARCHAR},
+            <if test="shopUserId != null">
+                #{shopUserId,jdbcType=VARCHAR},
             </if>
             <if test="shopName != null">
                 #{shopName,jdbcType=VARCHAR},
@@ -276,8 +276,8 @@
         <!--@mbg.generated-->
         update bis_shop
         <set>
-            <if test="ownerId != null">
-                owner_id = #{ownerId,jdbcType=VARCHAR},
+            <if test="shopUserId != null">
+                shop_user_id = #{shopUserId,jdbcType=VARCHAR},
             </if>
             <if test="shopName != null">
                 shop_name = #{shopName,jdbcType=VARCHAR},
@@ -363,7 +363,7 @@
     <update id="updateByPrimaryKey" parameterType="bms.entity.BisShop">
         <!--@mbg.generated-->
         update bis_shop
-        set owner_id = #{ownerId,jdbcType=VARCHAR},
+        set shop_user_id = #{shopUserId,jdbcType=VARCHAR},
         shop_name = #{shopName,jdbcType=VARCHAR},
         short_name = #{shortName,jdbcType=VARCHAR},
         month_cash_in = #{monthCashIn,jdbcType=DOUBLE},
@@ -399,7 +399,7 @@
     </select>
     <resultMap id="shops_map" type="bms.entity.BisShop">
         <id column="shop_id" jdbcType="VARCHAR" property="shopId"/>
-        <result column="owner_id" jdbcType="VARCHAR" property="ownerId"/>
+        <result column="shop_user_id" jdbcType="VARCHAR" property="shopUserId"/>
         <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
         <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
         <result column="month_cash_in" jdbcType="DOUBLE"
@@ -439,7 +439,87 @@
                 property="modifyUserId"/>
         <association property="bisShopUser" column="shop_id"
                      javaType="bms.entity.BisShopUser"
-        select="bms.mapper.BisShopUserMapper.getOwnerByShopId"/>
+                     select="bms.mapper.BisShopUserMapper.getOwnerByShopId"/>
     </resultMap>
     <!--search for all shops/-->
+
+    <!--search for shops by shopname-->
+    <select id="selectByShopName" resultMap="BaseResultMap">
+        select * from bis_shop where shop_name like concat('%',#{shopName} ,'%')
+    </select>
+    <!--search for shops by shopid-->
+    <select id="getNameByShopId" resultMap="BaseResultMap">
+        select * from bis_shop where shop_id = #{shopId}
+    </select>
+
+    <!--find shops by condition-->
+    <select id="getShopsByCond" resultMap="getShopsBycond_map">
+        select bis_shop.*,bis_shop_user.* from bis_shop,bis_shop_user where bis_shop.shop_user_id = bis_shop_user.shop_user_id
+        <if test="shopId != null">
+            AND bis_shop.shop_id like concat('%',#{shopId },'%')
+        </if>
+        <if test="shopName != null">
+            AND shop_name like concat('%',#{shopName},'%')
+        </if>
+        <if test="shortName != null">
+            AND short_name like concat('%',#{shortName},'%')
+        </if>
+
+        <if test="bisShopUser.account != null">
+            AND account like concat('%',#{bisShopUser.account},'%')
+        </if>
+
+
+        <if test="shopLicense != null">
+            AND shop_license like concat('%',#{shopLicense},'%')
+        </if>
+        <if test="showStatus != ''">
+            AND show_status = #{showStatus}
+        </if>
+    </select>
+    <resultMap id="getShopsBycond_map" type="bms.entity.BisShop">
+        <id column="shop_id" jdbcType="VARCHAR" property="shopId"/>
+        <result column="shop_user_id" jdbcType="VARCHAR" property="shopUserId"/>
+        <result column="shop_name" jdbcType="VARCHAR" property="shopName"/>
+        <result column="short_name" jdbcType="VARCHAR" property="shortName"/>
+        <result column="month_cash_in" jdbcType="DOUBLE"
+                property="monthCashIn"/>
+        <result column="month_expend_in" jdbcType="DOUBLE"
+                property="monthExpendIn"/>
+        <result column="shop_license" jdbcType="VARCHAR"
+                property="shopLicense"/>
+        <result column="shop_image" jdbcType="VARCHAR" property="shopImage"/>
+        <result column="shop_detail_image" jdbcType="VARCHAR"
+                property="shopDetailImage"/>
+        <result column="gps_x" jdbcType="DOUBLE" property="gpsX"/>
+        <result column="gps_y" jdbcType="DOUBLE" property="gpsY"/>
+        <result column="sort_no" jdbcType="INTEGER" property="sortNo"/>
+        <result column="shop_address" jdbcType="VARCHAR"
+                property="shopAddress"/>
+        <result column="shop_qrcode" jdbcType="VARCHAR" property="shopQrcode"/>
+        <result column="shop_phone" jdbcType="VARCHAR" property="shopPhone"/>
+        <result column="shop_area" jdbcType="DOUBLE" property="shopArea"/>
+        <result column="shop_project" jdbcType="VARCHAR"
+                property="shopProject"/>
+        <result column="shop_type" jdbcType="VARCHAR" property="shopType"/>
+        <result column="shop_intro" jdbcType="LONGVARCHAR"
+                property="shopIntro"/>
+        <result column="show_status" jdbcType="VARCHAR" property="showStatus"/>
+        <result column="is_del" jdbcType="VARCHAR" property="isDel"/>
+        <result column="shop_remark" jdbcType="VARCHAR" property="shopRemark"/>
+        <result column="begin_time" jdbcType="VARCHAR" property="beginTime"/>
+        <result column="end_time" jdbcType="VARCHAR" property="endTime"/>
+        <result column="create_time" jdbcType="TIMESTAMP"
+                property="createTime"/>
+        <result column="create_user_id" jdbcType="VARCHAR"
+                property="createUserId"/>
+        <result column="modify_time" jdbcType="TIMESTAMP"
+                property="modifyTime"/>
+        <result column="modify_user_id" jdbcType="VARCHAR"
+                property="modifyUserId"/>
+        <association property="bisShopUser"
+                     javaType="bms.entity.BisShopUser" column="shop_id"
+                     select="bms.mapper.BisShopUserMapper.getOwnerByShopId"/>
+    </resultMap>
 </mapper>
+

@@ -18,4 +18,12 @@ public interface BisShopService {
      * @return List<BisShop>
      */
     List<BisShop> findAllShops();
+
+    /**
+     * find shops by condition
+     *
+     * @return
+     * @param bisShop
+     */
+    List<BisShop> getShopsByCond(BisShop bisShop);
 }

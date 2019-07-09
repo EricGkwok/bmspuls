@@ -3,6 +3,7 @@ package bms.entity;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import org.springframework.stereotype.Component;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,6 +13,7 @@ import lombok.Data;
  * Time: 9:36
  */
 @Data
+@Component
 public class BisShopPost implements Serializable {
     /**
     * 职位编号

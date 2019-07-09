@@ -47,47 +47,55 @@
             class="Hui-iconfont">&#xe68f;</i></a></nav>
 
 
-<div class="page-container">
+<div class="page-container" id="table">
     <!--多条件查询/-->
-    <form action="" id="selForm">
-        <div class="text-c">
-            <div>
-                店主账号:&nbsp;<input type="text" name="shopId" placeholder=" 店主账号"
+
+    <div class="text-c">
+        <div>
+            店主账号:&nbsp;<input type="text" name="shopId" placeholder=" 店主账号"
+                              style="width:250px"
+                              class="input-text" v-model="owner.account">
+            姓&emsp;名:&nbsp;<input type="text" name="shopName"
+                                  placeholder=" 姓名"
+                                  style="width:250px"
+                                  class="input-text"
+                                  v-model="owner.username">
+            邮&emsp;箱:&nbsp;<input type="text" name="shortName"
+                                  v-model="owner.email"
+                                  placeholder=" 邮箱"
                                   style="width:250px"
                                   class="input-text">
-                姓&emsp;名:&nbsp;<input type="text" name="shopName"
-                                      placeholder=" 姓名"
-                                      style="width:250px"
-                                      class="input-text">
-                邮&emsp;箱:&nbsp;<input type="text" name="shortName"
-                                      placeholder=" 邮箱"
-                                      style="width:250px"
-                                      class="input-text">
-            </div>
-            <div id="div1">
-                &nbsp;手机号码:&nbsp;<input type="text" name="account"
-                                        placeholder=" 手机号码"
-                                        style="width:250px"
-                                        class="input-text">
-                身份证:&nbsp;<input type="text" name="shopLicense"
-                                 placeholder=" 身份证"
-                                 style="width:250px"
-                                 class="input-text">
-                <span class="inline">状&emsp;态:&nbsp;</span>
-                <select name="showStatus" class="select" style="width:250px"
-                        class="input-text">
-                    <option value="1" class="input-text">启用</option>
-                    <option value="0" class="input-text">禁用</option>
-                </select>
-            </div>
-            <button class="btn btn-success" type="submit">
-                <i class="Hui-iconfont">&#xe665;</i> 查询
-            </button>
-            <button onclick="removeIframe()" class="btn btn-primary radius">
-                关闭选项卡
-            </button>
         </div>
-    </form>
+        <div id="div1">
+            &nbsp;手机号码:&nbsp;<input type="text" name="account"
+                                    placeholder=" 手机号码"
+                                    style="width:250px"
+                                    class="input-text"
+                                    v-model="owner.mobile">
+            身份证:&nbsp;<input type="text" name="shopLicense"
+                             placeholder=" 身份证"
+                             style="width:250px"
+                             class="input-text" v-model="owner.idno">
+            <span class="inline">状&emsp;态:</span>
+            <select class="select"
+                    style="width:250px" autocomplete="off"
+                    class="input-text" id="sel">
+                <option value="" class="input-text" selected="selected">
+                    是否在职
+                </option>
+                <option value="1" class="input-text">在职</option>
+                <option value="0" class="input-text">离职</option>
+            </select>
+        </div>
+        <button class="btn btn-success" type="submit"
+                @click="getCond(owner)">
+            <i class="Hui-iconfont">&#xe665;</i> 查询
+        </button>
+        <button onclick="removeIframe()" class="btn btn-primary radius">
+            关闭选项卡
+        </button>
+    </div>
+
     <!--多条件查询/-->
 
     <!--crud-->
@@ -103,7 +111,7 @@
     <!--crud-->
 
     <!--表格-->
-    <div class="mt-20" id="table">
+    <div class="mt-20">
         <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
             <thead>
             <tr class="text-c">
@@ -168,7 +176,23 @@
             owners: [],
             owner: {}
         },
-        methods: {},
+        methods: {
+            getCond(owner) {
+                this.owner = owner;
+                var status = $("#sel").val();
+                this.owner.status = status;
+                //alert(this.owner.status);
+                var that = this;
+                axios.post('getOwnersByCond', this.owner)
+                    .then(function (response) {
+                        console.log(response);
+                        that.owners = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        },
         created() {
             var that = this;
             axios.get('getAllOwners')

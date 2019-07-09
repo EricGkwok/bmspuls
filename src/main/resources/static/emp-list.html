@@ -37,7 +37,7 @@
         }
     </style>
 
-    <title>图片列表</title>
+    <title>员工列表</title>
 </head>
 <body>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span
@@ -46,56 +46,63 @@
                 style="line-height:1.6em;margin-top:3px"
                 href="javascript:location.replace(location.href);" title="刷新"><i
         class="Hui-iconfont">&#xe68f;</i></a></nav>
-<div class="page-container">
+<div class="page-container" id="table">
     <!--多条件查询/-->
-    <form action="" id="selForm">
-        <div class="text-c">
-            <div>
-                员工账号:&nbsp;<input type="text" name="shopId" placeholder=" 店铺编号"
-                                  style="width:250px"
-                                  class="input-text">
-                店铺名称:&nbsp;<input type="text" name="shopName"
-                                  placeholder=" 店铺名称"
-                                  style="width:250px"
-                                  class="input-text">
-                职位:&nbsp;<input type="text" name="shortName"
-                                placeholder=" 店铺简称"
-                                style="width:250px"
-                                class="input-text">
-                姓名: <input type="text" name="shortName"
-                           placeholder=" 店铺简称"
-                           style="width:250px"
-                           class="input-text">
-            </div>
-            <div id="div1">
-                &nbsp;工号:&nbsp;<input type="text" name="account"
-                                      placeholder=" 店铺账号"
-                                      style="width:250px"
-                                      class="input-text">
-                手机:&nbsp;<input type="text" name="shopLicense"
-                                placeholder=" 营业执照号"
-                                style="width:250px"
-                                class="input-text">
-                身份证:<input type="text" name="shopLicense"
-                           placeholder=" 营业执照号"
-                           style="width:250px"
-                           class="input-text">
-                <span class="inline">店铺状态:&nbsp;</span>
-                <select name="showStatus" class="select" style="width:250px"
-                        class="input-text">
-                    <option value="1" class="input-text">启用</option>
-                    <option value="0" class="input-text">禁用</option>
-                </select>
-            </div>
-            <button class="btn btn-success" type="submit">
-                <i class="Hui-iconfont">&#xe665;</i> 查询
-            </button>
-            <button onclick="removeIframe()" class="btn btn-primary radius">
-                关闭选项卡
-            </button>
+    <!--    <form action="" id="selForm">-->
+    <div class="text-c">
+        <div>
+            员工账号:&nbsp;<input type="text" name="account" placeholder=" 员工账号"
+                              style="width:250px"
+                              class="input-text" v-model="emp.account">
+            店铺名称:&nbsp;<input v-model="emp.bisShop.shopName" type="text"
+                              name="shopName"
+                              placeholder=" 店铺名称"
+                              style="width:250px"
+                              class="input-text">
+            职位名称:&nbsp;<input v-model="emp.bisShopPost.postName" type="text"
+                              name="shortName"
+                              placeholder=" 职位"
+                              style="width:250px"
+                              class="input-text">
+            员工姓名: <input v-model="emp.username" type="text" name="shortName"
+                         placeholder=" 店铺简称"
+                         style="width:250px"
+                         class="input-text">
         </div>
-    </form>
+        <div id="div1">
+            员工工号:&nbsp;<input v-model="emp.workNumber" type="text"
+                              name="account"
+                              placeholder=" 工号"
+                              style="width:250px"
+                              class="input-text">
+            手机号码:&nbsp;<input v-model="emp.mobile" type="text"
+                              name="shopLicense"
+                              placeholder=" 手机"
+                              style="width:250px"
+                              class="input-text">
+            身份证号:&nbsp;<input v-model="emp.idno" type="text" name="shopLicense"
+                              placeholder=" 身份证"
+                              style="width:250px"
+                              class="input-text">
+            <span class="inline">在职状态:&nbsp;</span>
+            <select name="showStatus" class="select" style="width:250px"
+                    class="input-text" id="sel">
+                <option value="" selected="selected">请选择是否在职
+                </option>
+                <option value="1" class="input-text">在职</option>
+                <option value="0" class="input-text">离职</option>
+            </select>
+        </div>
+        <button class="btn btn-success" type="submit"
+                @click="findUsersByCond(emp)">
+            <i class="Hui-iconfont">&#xe665;</i> 查询
+        </button>
+        <button onclick="removeIframe()" class="btn btn-primary radius">
+            关闭选项卡
+        </button>
+    </div>
     <!--多条件查询/-->
+
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a
             href="javascript:;" onclick="datadel()"
             class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a
@@ -105,7 +112,7 @@
             class="Hui-iconfont">&#xe600;</i> 添加图片</a></span> <span class="r">共有数据：<strong>54</strong> 条</span>
     </div>
     <!--表格-->
-    <div class="mt-20" id="table">
+    <div class="mt-20">
         <table class="table table-border table-bordered table-bg table-hover table-sort">
             <thead>
             <tr class="text-c">
@@ -120,7 +127,7 @@
                 <th width="160">身份证</th>
                 <th width="100">销售收入</th>
                 <th width="100">手工收入</th>
-                <th width="100">状态收入</th>
+                <th width="100">状态</th>
                 <th width="100">入职时间</th>
             </tr>
             </thead>
@@ -136,13 +143,16 @@
                 <td v-else>未知</td><!--性别-->
 
                 <td>{{emp.workNumber}}</td><!--工号-->
-                <td>{{emp.shopId}}</td><!--店铺名称-->
-                <td>{{emp.postCode}}</td><!--职位-->
+                <td>{{emp.bisShop.shopName}}</td><!--店铺名称-->
+                <td>{{emp.bisShopPost.postName}}</td><!--职位}-->
                 <td>{{emp.mobile}}</td><!--手机-->
                 <td>{{emp.idno}}</td><!--身份证-->
                 <td></td><!--销售收入-->
                 <td></td><!--手工收入-->
-                <td></td><!--状态收入-->
+
+                <td v-if="emp.status=='1'">在职</td><!--状态收入-->
+                <td v-else>离职</td><!--状态收入-->
+
                 <td>{{emp.entryDate}}</td><!--入职时间-->
 
             </tbody>
@@ -173,9 +183,28 @@
         data: {
             /*all emps list*/
             emps: [],
-            emp: {}
+            /*条件查询*/
+            emp: {
+                bisShopPost: {},
+                bisShop: {}
+            },
         },
-        methods: {},
+        methods: {
+            findUsersByCond(emp) {
+                this.emp = emp;
+                var status = $("#sel").val();
+                this.emp.status = status;
+                var that = this;
+                axios.post('getUsersByCond', this.emp)
+                    .then(function (response) {
+                        console.log(response.data);
+                        that.emps = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        },
         created() {
             var that = this;
             axios.get('getAllUsers')

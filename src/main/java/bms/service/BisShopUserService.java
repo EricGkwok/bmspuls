@@ -1,39 +1,17 @@
-package bms.mapper;
+package bms.service;
 
 import bms.entity.BisShopUser;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
  * Description:
- * User: lhyou
+ * Author: lhyou
  * Date: 2019-07-06
- * Time: 9:37
+ * Time: 15:51
  */
-@Mapper
-public interface BisShopUserMapper {
-    int deleteByPrimaryKey(String shopUserId);
-
-    int insert(BisShopUser record);
-
-    int insertSelective(BisShopUser record);
-
-    BisShopUser selectByPrimaryKey(String shopUserId);
-
-    int updateByPrimaryKeySelective(BisShopUser record);
-
-    int updateByPrimaryKey(BisShopUser record);
-
-    /**
-     * 查询店主信息
-     *
-     * @return BisShopUser
-     */
-    BisShopUser getOwnerByShopId();
-
-
+public interface BisShopUserService {
     /**
      * find all owners
      *
@@ -42,7 +20,7 @@ public interface BisShopUserMapper {
     List<BisShopUser> getAllOwners();
 
     /**
-     * find all owners
+     * find all users
      *
      * @return List<BisShopUser>
      */
@@ -57,7 +35,7 @@ public interface BisShopUserMapper {
     List<BisShopUser> getUsersByCond(BisShopUser bisShopUser);
 
     /**
-     * find users by cond
+     * find owners by cond
      *
      * @param bisShopUser
      * @return List<BisShopUser>

@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 /**
  * Created with IntelliJ IDEA.
- * Description: 
+ * Description:
  * User: lhyou
  * Date: 2019-07-06
  * Time: 9:36
@@ -23,4 +23,11 @@ public interface BisShopPostMapper {
     int updateByPrimaryKeySelective(BisShopPost record);
 
     int updateByPrimaryKey(BisShopPost record);
+
+    /**
+     * find post name by post code
+     *
+     * @return BisShopPost
+     */
+    BisShopPost findPostNameByCode(String  postCode);
 }

@@ -30,6 +30,7 @@
     <script src="vue/axios.min.js"></script>
     <script src="vue/vue.min.js"></script>
     <!--vue-->
+
     <title>店铺列表</title>
     <style>
         #div1 {
@@ -47,47 +48,46 @@
             class="Hui-iconfont">&#xe68f;</i></a></nav>
 
 
-<div class="page-container">
+<div class="page-container" id="table">
     <!--多条件查询/-->
-    <form action="" id="selForm">
-        <div class="text-c" >
-            <div>
-                店铺编号:&nbsp;<input type="text" name="shopId" placeholder=" 店铺编号"
-                                  style="width:250px"
-                                  class="input-text">
-                店铺名称:&nbsp;<input type="text" name="shopName"
-                                  placeholder=" 店铺名称"
-                                  style="width:250px"
-                                  class="input-text">
-                店铺简称:&nbsp;<input type="text" name="shortName"
-                                  placeholder=" 店铺简称"
-                                  style="width:250px"
-                                  class="input-text">
-            </div>
-            <div id="div1">
-                &nbsp;店铺账号:&nbsp;<input type="text" name="account"
-                                        placeholder=" 店铺账号"
-                                        style="width:250px"
-                                        class="input-text">
-                营业执照:&nbsp;<input type="text" name="shopLicense"
-                                  placeholder=" 营业执照号"
-                                  style="width:250px"
-                                  class="input-text">
-                <span class="inline">店铺状态:&nbsp;</span>
-                <select name="showStatus" class="select" style="width:250px"
-                        class="input-text">
-                    <option value="1" class="input-text">启用</option>
-                    <option value="0" class="input-text">禁用</option>
-                </select>
-            </div>
-            <button class="btn btn-success" type="submit">
-                <i class="Hui-iconfont">&#xe665;</i> 查询
-            </button>
-            <button onclick="removeIframe()" class="btn btn-primary radius">
-                关闭选项卡
-            </button>
+
+    <div class="text-c">
+        <div>
+            店铺编号:&nbsp;<input type="text" name="shopId" placeholder=" 店铺编号"
+                              style="width:250px" class="input-text"
+                              v-model="shop.shopId">
+            店铺名称:&nbsp;<input type="text" name="shopName" placeholder=" 店铺名称"
+                              style="width:250px" class="input-text"
+                              v-model="shop.shopName">
+            店铺简称:&nbsp;<input type="text" name="shortName" placeholder=" 店铺简称"
+                              style="width:250px" class="input-text"
+                              v-model="shop.shortName">
         </div>
-    </form>
+        <div id="div1">
+            &nbsp;店主账号:&nbsp;<input type="text" name="account"
+                                    placeholder=" 店铺账号"
+                                    style="width:250px" class="input-text"
+                                    v-model="shop.bisShopUser.account">
+            营业执照:&nbsp;<input type="text" name="shopLicense"
+                              placeholder=" 营业执照号"
+                              style="width:250px" class="input-text"
+                              v-model="shop.shopLicense">
+            <span class="inline">店铺状态:&nbsp;</span>
+            <select name="showStatus" class="select" style="width:250px"
+                    class="input-text" id="sel">
+                <option value="" selected="selected">请选择店铺状态</option>
+                <option value="1" class="input-text">启用</option>
+                <option value="0" class="input-text">禁用</option>
+            </select>
+        </div>
+        <button class="btn btn-success" type="submit" @click="getCond(shop)">
+            <i class="Hui-iconfont">&#xe665;</i> 查询
+        </button>
+        <button onclick="removeIframe()" class="btn btn-primary radius">
+            关闭选项卡
+        </button>
+    </div>
+
     <!--多条件查询/-->
     <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a
             href="javascript:;" onclick="datadel()"
@@ -101,7 +101,7 @@
 
 
     <!--表格-->
-    <div class="mt-20" id="table">
+    <div class="mt-20">
         <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
             <thead>
             <tr class="text-c">
@@ -129,7 +129,7 @@
                 <td>{{shop.shopLicense}}</td><!--营业执照-->
                 <td>{{shop.shopPhone}}</td><!--电话-->
 
-                <td v-if="shop.showStatus==1">启用</td><!--状态-->
+                <td v-if="shop.showStatus=='1'">启用</td><!--状态-->
                 <td v-else>禁用</td><!--状态-->
 
                 <td>{{shop.sortNo}}</td><!--排序号-->
@@ -162,11 +162,27 @@
         data: {
             /*all shops list*/
             shops: [],
+            /*多条件查询*/
             shop: {
-                owner: {}
+                 bisShopUser: {}
+            },
+        },
+        methods: {
+            getCond(shop) {
+                this.shop = shop;
+                var showStatus = $("#sel").val();
+                this.shop.showStatus = showStatus;
+                var that = this;
+                axios.post('getShopsByCond', this.shop)
+                    .then(function (response) {
+                        console.log(response);
+                        that.shops = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
         },
-        methods: {},
         created() {
             var that = this;
             axios.get('findAllShops')

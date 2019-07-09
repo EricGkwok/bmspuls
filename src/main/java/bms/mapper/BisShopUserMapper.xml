@@ -1,349 +1,472 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bms.mapper.BisShopUserMapper">
-  <resultMap id="BaseResultMap" type="bms.entity.BisShopUser">
-    <!--@mbg.generated-->
-    <id column="shop_user_id" jdbcType="VARCHAR" property="shopUserId" />
-    <result column="user_type" jdbcType="VARCHAR" property="userType" />
-    <result column="shop_id" jdbcType="VARCHAR" property="shopId" />
-    <result column="account" jdbcType="VARCHAR" property="account" />
-    <result column="username" jdbcType="VARCHAR" property="username" />
-    <result column="password" jdbcType="VARCHAR" property="password" />
-    <result column="photo" jdbcType="VARCHAR" property="photo" />
-    <result column="work_number" jdbcType="VARCHAR" property="workNumber" />
-    <result column="sex" jdbcType="VARCHAR" property="sex" />
-    <result column="post_code" jdbcType="VARCHAR" property="postCode" />
-    <result column="entry_date" jdbcType="DATE" property="entryDate" />
-    <result column="mobile" jdbcType="VARCHAR" property="mobile" />
-    <result column="phone" jdbcType="VARCHAR" property="phone" />
-    <result column="email" jdbcType="VARCHAR" property="email" />
-    <result column="born_date" jdbcType="DATE" property="bornDate" />
-    <result column="idno" jdbcType="VARCHAR" property="idno" />
-    <result column="address" jdbcType="VARCHAR" property="address" />
-    <result column="linkman" jdbcType="VARCHAR" property="linkman" />
-    <result column="linkphone" jdbcType="VARCHAR" property="linkphone" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="is_del" jdbcType="VARCHAR" property="isDel" />
-    <result column="remark" jdbcType="VARCHAR" property="remark" />
-    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-    <result column="create_user_id" jdbcType="VARCHAR" property="createUserId" />
-    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
-    <result column="modify_user_id" jdbcType="VARCHAR" property="modifyUserId" />
-  </resultMap>
-  <sql id="Base_Column_List">
-    <!--@mbg.generated-->
-    shop_user_id, user_type, shop_id, account, username, `password`, photo, work_number, 
-    sex, post_code, entry_date, mobile, phone, email, born_date, idno, address, linkman, 
-    linkphone, `status`, is_del, remark, create_time, create_user_id, modify_time, modify_user_id
-  </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    <!--@mbg.generated-->
-    select 
-    <include refid="Base_Column_List" />
-    from bis_shop_user
-    where shop_user_id = #{shopUserId,jdbcType=VARCHAR}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    <!--@mbg.generated-->
-    delete from bis_shop_user
-    where shop_user_id = #{shopUserId,jdbcType=VARCHAR}
-  </delete>
-  <insert id="insert" keyColumn="shop_user_id" keyProperty="shopUserId" parameterType="bms.entity.BisShopUser" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into bis_shop_user (user_type, shop_id, account, 
-      username, `password`, photo, 
-      work_number, sex, post_code, 
-      entry_date, mobile, phone, 
-      email, born_date, idno, 
-      address, linkman, linkphone, 
-      `status`, is_del, remark, 
-      create_time, create_user_id, modify_time, 
-      modify_user_id)
-    values (#{userType,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR}, #{account,jdbcType=VARCHAR}, 
-      #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, 
-      #{workNumber,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{postCode,jdbcType=VARCHAR}, 
-      #{entryDate,jdbcType=DATE}, #{mobile,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{email,jdbcType=VARCHAR}, #{bornDate,jdbcType=DATE}, #{idno,jdbcType=VARCHAR}, 
-      #{address,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}, #{linkphone,jdbcType=VARCHAR}, 
-      #{status,jdbcType=VARCHAR}, #{isDel,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
-      #{modifyUserId,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" keyColumn="shop_user_id" keyProperty="shopUserId" parameterType="bms.entity.BisShopUser" useGeneratedKeys="true">
-    <!--@mbg.generated-->
-    insert into bis_shop_user
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userType != null">
-        user_type,
-      </if>
-      <if test="shopId != null">
-        shop_id,
-      </if>
-      <if test="account != null">
-        account,
-      </if>
-      <if test="username != null">
-        username,
-      </if>
-      <if test="password != null">
-        `password`,
-      </if>
-      <if test="photo != null">
-        photo,
-      </if>
-      <if test="workNumber != null">
+    <resultMap id="BaseResultMap" type="bms.entity.BisShopUser">
+        <!--@mbg.generated-->
+        <id column="shop_user_id" jdbcType="VARCHAR" property="shopUserId"/>
+        <result column="user_type" jdbcType="VARCHAR" property="userType"/>
+        <result column="shop_id" jdbcType="VARCHAR" property="shopId"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="photo" jdbcType="VARCHAR" property="photo"/>
+        <result column="work_number" jdbcType="VARCHAR" property="workNumber"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="post_code" jdbcType="VARCHAR" property="postCode"/>
+        <result column="entry_date" jdbcType="DATE" property="entryDate"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="born_date" jdbcType="DATE" property="bornDate"/>
+        <result column="idno" jdbcType="VARCHAR" property="idno"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="linkman" jdbcType="VARCHAR" property="linkman"/>
+        <result column="linkphone" jdbcType="VARCHAR" property="linkphone"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="is_del" jdbcType="VARCHAR" property="isDel"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP"
+                property="createTime"/>
+        <result column="create_user_id" jdbcType="VARCHAR"
+                property="createUserId"/>
+        <result column="modify_time" jdbcType="TIMESTAMP"
+                property="modifyTime"/>
+        <result column="modify_user_id" jdbcType="VARCHAR"
+                property="modifyUserId"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        shop_user_id, user_type, shop_id, account, username, `password`, photo,
         work_number,
-      </if>
-      <if test="sex != null">
-        sex,
-      </if>
-      <if test="postCode != null">
-        post_code,
-      </if>
-      <if test="entryDate != null">
-        entry_date,
-      </if>
-      <if test="mobile != null">
-        mobile,
-      </if>
-      <if test="phone != null">
-        phone,
-      </if>
-      <if test="email != null">
-        email,
-      </if>
-      <if test="bornDate != null">
-        born_date,
-      </if>
-      <if test="idno != null">
-        idno,
-      </if>
-      <if test="address != null">
-        address,
-      </if>
-      <if test="linkman != null">
-        linkman,
-      </if>
-      <if test="linkphone != null">
-        linkphone,
-      </if>
-      <if test="status != null">
-        `status`,
-      </if>
-      <if test="isDel != null">
-        is_del,
-      </if>
-      <if test="remark != null">
-        remark,
-      </if>
-      <if test="createTime != null">
-        create_time,
-      </if>
-      <if test="createUserId != null">
-        create_user_id,
-      </if>
-      <if test="modifyTime != null">
-        modify_time,
-      </if>
-      <if test="modifyUserId != null">
-        modify_user_id,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userType != null">
-        #{userType,jdbcType=VARCHAR},
-      </if>
-      <if test="shopId != null">
-        #{shopId,jdbcType=VARCHAR},
-      </if>
-      <if test="account != null">
-        #{account,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null">
-        #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="photo != null">
-        #{photo,jdbcType=VARCHAR},
-      </if>
-      <if test="workNumber != null">
-        #{workNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null">
-        #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="postCode != null">
-        #{postCode,jdbcType=VARCHAR},
-      </if>
-      <if test="entryDate != null">
-        #{entryDate,jdbcType=DATE},
-      </if>
-      <if test="mobile != null">
-        #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="bornDate != null">
-        #{bornDate,jdbcType=DATE},
-      </if>
-      <if test="idno != null">
-        #{idno,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null">
-        #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="linkman != null">
-        #{linkman,jdbcType=VARCHAR},
-      </if>
-      <if test="linkphone != null">
-        #{linkphone,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="isDel != null">
-        #{isDel,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createUserId != null">
-        #{createUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="modifyTime != null">
-        #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyUserId != null">
-        #{modifyUserId,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="bms.entity.BisShopUser">
-    <!--@mbg.generated-->
-    update bis_shop_user
-    <set>
-      <if test="userType != null">
-        user_type = #{userType,jdbcType=VARCHAR},
-      </if>
-      <if test="shopId != null">
-        shop_id = #{shopId,jdbcType=VARCHAR},
-      </if>
-      <if test="account != null">
-        account = #{account,jdbcType=VARCHAR},
-      </if>
-      <if test="username != null">
-        username = #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null">
-        `password` = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="photo != null">
-        photo = #{photo,jdbcType=VARCHAR},
-      </if>
-      <if test="workNumber != null">
-        work_number = #{workNumber,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null">
-        sex = #{sex,jdbcType=VARCHAR},
-      </if>
-      <if test="postCode != null">
-        post_code = #{postCode,jdbcType=VARCHAR},
-      </if>
-      <if test="entryDate != null">
-        entry_date = #{entryDate,jdbcType=DATE},
-      </if>
-      <if test="mobile != null">
-        mobile = #{mobile,jdbcType=VARCHAR},
-      </if>
-      <if test="phone != null">
-        phone = #{phone,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null">
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="bornDate != null">
-        born_date = #{bornDate,jdbcType=DATE},
-      </if>
-      <if test="idno != null">
-        idno = #{idno,jdbcType=VARCHAR},
-      </if>
-      <if test="address != null">
-        address = #{address,jdbcType=VARCHAR},
-      </if>
-      <if test="linkman != null">
-        linkman = #{linkman,jdbcType=VARCHAR},
-      </if>
-      <if test="linkphone != null">
-        linkphone = #{linkphone,jdbcType=VARCHAR},
-      </if>
-      <if test="status != null">
-        `status` = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="isDel != null">
-        is_del = #{isDel,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null">
-        remark = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createUserId != null">
-        create_user_id = #{createUserId,jdbcType=VARCHAR},
-      </if>
-      <if test="modifyTime != null">
-        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="modifyUserId != null">
-        modify_user_id = #{modifyUserId,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where shop_user_id = #{shopUserId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="bms.entity.BisShopUser">
-    <!--@mbg.generated-->
-    update bis_shop_user
-    set user_type = #{userType,jdbcType=VARCHAR},
-      shop_id = #{shopId,jdbcType=VARCHAR},
-      account = #{account,jdbcType=VARCHAR},
-      username = #{username,jdbcType=VARCHAR},
-      `password` = #{password,jdbcType=VARCHAR},
-      photo = #{photo,jdbcType=VARCHAR},
-      work_number = #{workNumber,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=VARCHAR},
-      post_code = #{postCode,jdbcType=VARCHAR},
-      entry_date = #{entryDate,jdbcType=DATE},
-      mobile = #{mobile,jdbcType=VARCHAR},
-      phone = #{phone,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      born_date = #{bornDate,jdbcType=DATE},
-      idno = #{idno,jdbcType=VARCHAR},
-      address = #{address,jdbcType=VARCHAR},
-      linkman = #{linkman,jdbcType=VARCHAR},
-      linkphone = #{linkphone,jdbcType=VARCHAR},
-      `status` = #{status,jdbcType=VARCHAR},
-      is_del = #{isDel,jdbcType=VARCHAR},
-      remark = #{remark,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=VARCHAR},
-      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
-      modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
-    where shop_user_id = #{shopUserId,jdbcType=VARCHAR}
-  </update>
-
-  <!--查询店主账号,姓名-->
-    <select id="getOwnerByShopId" resultType="bms.entity.BisShopUser">
-      select account,username from bis_shop_user where user_type = 1 and
-      shop_id is null
+        sex, post_code, entry_date, mobile, phone, email, born_date, idno,
+        address, linkman,
+        linkphone, `status`, is_del, remark, create_time, create_user_id,
+        modify_time, modify_user_id
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from bis_shop_user
+        where shop_user_id = #{shopUserId,jdbcType=VARCHAR}
     </select>
-  <!--查询店主账号,姓名-->
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        <!--@mbg.generated-->
+        delete from bis_shop_user
+        where shop_user_id = #{shopUserId,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" keyColumn="shop_user_id" keyProperty="shopUserId"
+            parameterType="bms.entity.BisShopUser" useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into bis_shop_user (user_type, shop_id, account,
+        username, `password`, photo,
+        work_number, sex, post_code,
+        entry_date, mobile, phone,
+        email, born_date, idno,
+        address, linkman, linkphone,
+        `status`, is_del, remark,
+        create_time, create_user_id, modify_time,
+        modify_user_id)
+        values (#{userType,jdbcType=VARCHAR}, #{shopId,jdbcType=VARCHAR},
+        #{account,jdbcType=VARCHAR},
+        #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+        #{photo,jdbcType=VARCHAR},
+        #{workNumber,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR},
+        #{postCode,jdbcType=VARCHAR},
+        #{entryDate,jdbcType=DATE}, #{mobile,jdbcType=VARCHAR},
+        #{phone,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR}, #{bornDate,jdbcType=DATE},
+        #{idno,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR},
+        #{linkphone,jdbcType=VARCHAR},
+        #{status,jdbcType=VARCHAR}, #{isDel,jdbcType=VARCHAR},
+        #{remark,jdbcType=VARCHAR},
+        #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=VARCHAR},
+        #{modifyTime,jdbcType=TIMESTAMP},
+        #{modifyUserId,jdbcType=VARCHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="shop_user_id"
+            keyProperty="shopUserId" parameterType="bms.entity.BisShopUser"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into bis_shop_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="shopId != null">
+                shop_id,
+            </if>
+            <if test="account != null">
+                account,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                `password`,
+            </if>
+            <if test="photo != null">
+                photo,
+            </if>
+            <if test="workNumber != null">
+                work_number,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="postCode != null">
+                post_code,
+            </if>
+            <if test="entryDate != null">
+                entry_date,
+            </if>
+            <if test="mobile != null">
+                mobile,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="bornDate != null">
+                born_date,
+            </if>
+            <if test="idno != null">
+                idno,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="linkman != null">
+                linkman,
+            </if>
+            <if test="linkphone != null">
+                linkphone,
+            </if>
+            <if test="status != null">
+                `status`,
+            </if>
+            <if test="isDel != null">
+                is_del,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="modifyTime != null">
+                modify_time,
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userType != null">
+                #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="shopId != null">
+                #{shopId,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="photo != null">
+                #{photo,jdbcType=VARCHAR},
+            </if>
+            <if test="workNumber != null">
+                #{workNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="postCode != null">
+                #{postCode,jdbcType=VARCHAR},
+            </if>
+            <if test="entryDate != null">
+                #{entryDate,jdbcType=DATE},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="bornDate != null">
+                #{bornDate,jdbcType=DATE},
+            </if>
+            <if test="idno != null">
+                #{idno,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="linkman != null">
+                #{linkman,jdbcType=VARCHAR},
+            </if>
+            <if test="linkphone != null">
+                #{linkphone,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                #{isDel,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyUserId != null">
+                #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective"
+            parameterType="bms.entity.BisShopUser">
+        <!--@mbg.generated-->
+        update bis_shop_user
+        <set>
+            <if test="userType != null">
+                user_type = #{userType,jdbcType=VARCHAR},
+            </if>
+            <if test="shopId != null">
+                shop_id = #{shopId,jdbcType=VARCHAR},
+            </if>
+            <if test="account != null">
+                account = #{account,jdbcType=VARCHAR},
+            </if>
+            <if test="username != null">
+                username = #{username,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                `password` = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="photo != null">
+                photo = #{photo,jdbcType=VARCHAR},
+            </if>
+            <if test="workNumber != null">
+                work_number = #{workNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="sex != null">
+                sex = #{sex,jdbcType=VARCHAR},
+            </if>
+            <if test="postCode != null">
+                post_code = #{postCode,jdbcType=VARCHAR},
+            </if>
+            <if test="entryDate != null">
+                entry_date = #{entryDate,jdbcType=DATE},
+            </if>
+            <if test="mobile != null">
+                mobile = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="bornDate != null">
+                born_date = #{bornDate,jdbcType=DATE},
+            </if>
+            <if test="idno != null">
+                idno = #{idno,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="linkman != null">
+                linkman = #{linkman,jdbcType=VARCHAR},
+            </if>
+            <if test="linkphone != null">
+                linkphone = #{linkphone,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                `status` = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=VARCHAR},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="modifyUserId != null">
+                modify_user_id = #{modifyUserId,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where shop_user_id = #{shopUserId,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="bms.entity.BisShopUser">
+        <!--@mbg.generated-->
+        update bis_shop_user
+        set user_type = #{userType,jdbcType=VARCHAR},
+        shop_id = #{shopId,jdbcType=VARCHAR},
+        account = #{account,jdbcType=VARCHAR},
+        username = #{username,jdbcType=VARCHAR},
+        `password` = #{password,jdbcType=VARCHAR},
+        photo = #{photo,jdbcType=VARCHAR},
+        work_number = #{workNumber,jdbcType=VARCHAR},
+        sex = #{sex,jdbcType=VARCHAR},
+        post_code = #{postCode,jdbcType=VARCHAR},
+        entry_date = #{entryDate,jdbcType=DATE},
+        mobile = #{mobile,jdbcType=VARCHAR},
+        phone = #{phone,jdbcType=VARCHAR},
+        email = #{email,jdbcType=VARCHAR},
+        born_date = #{bornDate,jdbcType=DATE},
+        idno = #{idno,jdbcType=VARCHAR},
+        address = #{address,jdbcType=VARCHAR},
+        linkman = #{linkman,jdbcType=VARCHAR},
+        linkphone = #{linkphone,jdbcType=VARCHAR},
+        `status` = #{status,jdbcType=VARCHAR},
+        is_del = #{isDel,jdbcType=VARCHAR},
+        remark = #{remark,jdbcType=VARCHAR},
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+        create_user_id = #{createUserId,jdbcType=VARCHAR},
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+        modify_user_id = #{modifyUserId,jdbcType=VARCHAR}
+        where shop_user_id = #{shopUserId,jdbcType=VARCHAR}
+    </update>
+
+    <!--查询店主账号,姓名-->
+    <select id="getOwnerByShopId" resultType="bms.entity.BisShopUser">
+      select account,username from bis_shop_user,bis_shop where user_type = 1 and
+       bis_shop.shop_user_id = bis_shop_user.shop_user_id
+    </select>
+    <!--查询店主账号,姓名-->
+    <!--查询所有店主信息-->
+    <select id="getAllOwners" resultMap="BaseResultMap">
+    select * from bis_shop_user where user_type = 1
+  </select>
+    <!--查询所有店主信息-->
+    <!--查找所有员工信息-->
+    <select id="getAllUsers" resultMap="findPostName_map">
+        select * from bis_shop_user where user_type = 2
+  </select>
+    <resultMap id="findPostName_map" type="bms.entity.BisShopUser">
+        <!--@mbg.generated-->
+        <id column="shop_user_id" jdbcType="VARCHAR" property="shopUserId"/>
+        <result column="user_type" jdbcType="VARCHAR" property="userType"/>
+        <result column="shop_id" jdbcType="VARCHAR" property="shopId"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="photo" jdbcType="VARCHAR" property="photo"/>
+        <result column="work_number" jdbcType="VARCHAR" property="workNumber"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="post_code" jdbcType="VARCHAR" property="postCode"/>
+        <result column="entry_date" jdbcType="DATE" property="entryDate"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="born_date" jdbcType="DATE" property="bornDate"/>
+        <result column="idno" jdbcType="VARCHAR" property="idno"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="linkman" jdbcType="VARCHAR" property="linkman"/>
+        <result column="linkphone" jdbcType="VARCHAR" property="linkphone"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="is_del" jdbcType="VARCHAR" property="isDel"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP"
+                property="createTime"/>
+        <result column="create_user_id" jdbcType="VARCHAR"
+                property="createUserId"/>
+        <result column="modify_time" jdbcType="TIMESTAMP"
+                property="modifyTime"/>
+        <result column="modify_user_id" jdbcType="VARCHAR"
+                property="modifyUserId"/>
+        <association property="bisShop" column="shop_id"
+                     javaType="bms.entity.BisShop"
+                     select="bms.mapper.BisShopMapper.getNameByShopId"/>
+    </resultMap>
+    <!--查找所有员工信息-->
+
+    <!--find users by cond-->
+    <select id="getUsersByCond" resultMap="findPostName_map">
+        select * from bis_shop_user,bis_shop,bis_shop_post where
+        bis_shop.shop_id = bis_shop_user.shop_id and bis_shop_post.post_code
+        = bis_shop_user.post_code and user_type ='2'
+        <if test="account != null">
+            AND account like concat('%',#{account },'%')
+        </if>
+        <if test="username != null">
+            AND username like concat('%',#{username},'%')
+        </if>
+        <if test="workNumber != null">
+            AND work_number = #{workNumber}
+        </if>
+        <if test="mobile != null">
+            AND mobile like concat('%',#{mobile},'%')
+        </if>
+        <if test="idno != null">
+            AND idno like concat('%',#{idno},'%')
+        </if>
+        <if test="status != '' ">
+            AND status = #{status}
+        </if>
+        <if test="bisShop.shopName != null">
+            AND shop_name like concat('%',#{bisShop.shopName},'%')
+        </if>
+        <if test="bisShopPost.postName != null">
+            AND post_name like concat('%',#{bisShopPost.postName},'%')
+        </if>
+    </select>
+
+    <!--find owners by cond-->
+    <select id="getOwnersByCond" resultMap="BaseResultMap">
+        select * from bis_shop_user where user_type = '1'
+        <if test="account != null">
+            AND account like concat('%',#{account },'%')
+        </if>
+        <if test="username != null">
+            AND username like concat('%',#{username},'%')
+        </if>
+        <if test="email != null">
+            AND email like concat('%',#{email},'%')
+        </if>
+        <if test="mobile != null">
+            AND mobile like concat('%',#{mobile},'%')
+        </if>
+        <if test="idno != null">
+            AND idno like concat('%',#{idno},'%')
+        </if>
+        <if test="status != ''">
+            AND status = #{status}
+        </if>
+    </select>
+
+
 </mapper>
