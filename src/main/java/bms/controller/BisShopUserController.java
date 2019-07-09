@@ -40,7 +40,6 @@ public class BisShopUserController {
     @RequestMapping("getOwnersByCond")
     @ResponseBody
     public List<BisShopUser> getOwnersByCond(@RequestBody BisShopUser bisShopUser) {
-
         List<BisShopUser> userList =
                 bisShopUserService.getOwnersByCond(bisShopUser);
         return userList;
@@ -62,7 +61,6 @@ public class BisShopUserController {
     @RequestMapping("getUsersByCond")
     @ResponseBody
     public List<BisShopUser> getUsersByCond(@RequestBody BisShopUser bisShopUser) {
-        System.out.println("bisShopUser = " + bisShopUser);
         List<BisShopUser> userList = bisShopUserService.getUsersByCond(bisShopUser);
         return userList;
     }

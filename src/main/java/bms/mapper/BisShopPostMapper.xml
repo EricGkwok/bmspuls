@@ -146,4 +146,21 @@
             parameterType="String">
         select * from bis_shop_post where post_code = #{postCode} limit 1
     </select>
+
+    <!--find posts info-->
+    <select id="getPosts" resultMap="BaseResultMap">
+        select * from bis_shop_post
+    </select>
+    <!--find post by cond-->
+    <select id="getPostsByCond" resultMap="BaseResultMap">
+        select * from bis_shop_post
+        <where>
+            <if test="postCode != null ">
+                post_code like concat('%',#{postCode},'%')
+            </if>
+            <if test="postName != null ">
+                post_name like concat('%',#{postName} ,'%')
+            </if>
+        </where>
+    </select>
 </mapper>

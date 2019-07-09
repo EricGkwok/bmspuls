@@ -42,9 +42,7 @@ public class BisShopController {
     @RequestMapping("getShopsByCond")
     @ResponseBody
     public List<BisShop> getShopsByCond(@RequestBody(required = false) BisShop bisShop) {
-        System.out.println(bisShop);
         List<BisShop> shops = bisShopService.getShopsByCond(bisShop);
-        System.out.println("shops = " + shops);
         return shops;
     }
 }

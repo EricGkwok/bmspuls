@@ -3,6 +3,8 @@ package bms.mapper;
 import bms.entity.BisShopPost;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * Description:
@@ -29,5 +31,19 @@ public interface BisShopPostMapper {
      *
      * @return BisShopPost
      */
-    BisShopPost findPostNameByCode(String  postCode);
+    BisShopPost findPostNameByCode(String postCode);
+
+    /**
+     * find post name by post code
+     *
+     * @return BisShopPost
+     */
+    List<BisShopPost> getPosts();
+
+    /**
+     * find post  by cond
+     *
+     * @return BisShopPost
+     */
+    List<BisShopPost> getPostsByCond(BisShopPost bisShopPost);
 }
