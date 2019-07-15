@@ -89,56 +89,507 @@
     </div>
 
     <!--多条件查询/-->
-    <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a
-            href="javascript:;" onclick="datadel()"
-            class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i>批量删除</a> <a
-            class="btn btn-primary radius" data-title="新增"
-            data-href="business-add.html" onclick="Hui_admin_tab(this)"
-            href="javascript:;"><i
-            class="Hui-iconfont">&#xe600;</i>新增</a></span> <span class="r">
-        共有数据：<strong>54</strong> 条</span>
+    <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l">
+        <!--删除-->
+        <a href="javascript:;" @click="deleteShop()" class="btn btn-danger radius" id="del">
+        <i class="Hui-iconfont">&#xe6e2;</i>批量删除</a>
+        <!--添加-->
+		<a class="btn btn-primary radius" @click="showAddModel()"
+           href="javascript:;"><i class="Hui-iconfont">&#xe600;</i>添加</a>
+        <!--查看详情-->
+        <a class="btn btn-success radius" data-title="新增"
+           data-href="business-add.html" onclick="Hui_admin_tab(this)"
+           href="javascript:;">
+            <i class="Hui-iconfont">&#xe709;</i>查看详情</a></span>
+        <!--数据总数-->
+        <span class="r">共有数据：<strong>54</strong> 条</span>
     </div>
 
 
     <!--表格-->
     <div class="mt-20">
-        <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
-            <thead>
-            <tr class="text-c">
-                <th width="25"><input type="checkbox" name="" value=""></th>
-                <th width="80">店铺编号</th>
-                <th width="80">店铺名称</th>
-                <th width="80">店铺简称</th>
-                <th width="80">店主账号</th>
-                <th width="80">店铺法人</th>
-                <th width="120">营业执照号</th>
-                <th width="80">店铺电话</th>
-                <th width="40">状态</th>
-                <th width="40">排序号</th>
-                <th width="120">更新时间</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="text-c" v-for="shop in shops">
-                <td><input type="checkbox" value="" name=""></td>
-                <td>{{shop.shopId}}</td><!--编号-->
-                <td>{{shop.shopName}}</td><!--名称-->
-                <td>{{shop.shortName}}</td><!--简称-->
-                <td>{{shop.bisShopUser.account}}</td><!--店主账号-->
-                <td>{{shop.bisShopUser.username}}</td><!--法人-->
-                <td>{{shop.shopLicense}}</td><!--营业执照-->
-                <td>{{shop.shopPhone}}</td><!--电话-->
+        <form action="" id="form">
+            <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
+                <thead>
+                <tr class="text-c">
+                    <th width="25"><input type="checkbox" name="" value=""></th>
+                    <th width="80">店铺编号</th>
+                    <th width="80">店铺名称</th>
+                    <th width="80">店铺简称</th>
+                    <th width="80">店主账号</th>
+                    <th width="80">店铺法人</th>
+                    <th width="120">营业执照号</th>
+                    <th width="80">店铺电话</th>
+                    <th width="40">状态</th>
+                    <th width="40">排序号</th>
+                    <th width="120">更新时间</th>
+                    <th width="100">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-c" v-for="shop in shops">
+                    <td><input type="checkbox" name="shopIds" class="ids" :value="shop.shopId"></td>
+                    <td>{{shop.shopId}}</td><!--编号-->
+                    <td>{{shop.shopName}}</td><!--名称-->
+                    <td>{{shop.shortName}}</td><!--简称-->
+                    <td>{{shop.bisShopUser.account}}</td><!--店主账号-->
+                    <td>{{shop.bisShopUser.username}}</td><!--法人-->
+                    <td>{{shop.shopLicense}}</td><!--营业执照-->
+                    <td>{{shop.shopPhone}}</td><!--电话-->
 
-                <td v-if="shop.showStatus=='1'">启用</td><!--状态-->
-                <td v-else>禁用</td><!--状态-->
+                    <td v-if="shop.showStatus=='1'">启用</td><!--状态-->
+                    <td v-else>禁用</td><!--状态-->
 
-                <td>{{shop.sortNo}}</td><!--排序号-->
-                <td>{{shop.modifyTime}}</td><!--更新时间-->
-            </tr>
-            </tbody>
-        </table>
+                    <td>{{shop.sortNo}}</td><!--排序号-->
+
+                    <td v-if="shop.modifyTime != null">{{shop.modifyTime}}</td>
+                    <!--更新时间-->
+                    <td v-else>{{shop.createTime}}</td><!--创建时间-->
+                    <td class="f-14">
+                        <a title="编辑" href="javascript:;" @click="showUpdModel(shop)" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                        <a title="删除" href="javascript:;" class="ml-5" @click="delShop(shop.shopId)" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
     </div>
     <!--表格/-->
+
+    <!--    修改弹出框-->
+    <div id="modal-demo" class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content radius">
+                <!--标题-->
+                <div class="modal-header">
+                    <h3 class="modal-title">修改店铺信息</h3>
+                    <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
+                </div>
+                <!--主体-->
+                <div class="modal-body">
+                    <form class="form form-horizontal" id="form-article-add">
+                        <!--店主账号-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>店主账号：</label>
+                            <div class="formControls col-xs-8 col-sm-6 skin-minimal">
+                                <input type="text" class="input-text" v-model="updShop.bisShopUser.account">
+                            </div>
+                        </div>
+                        <!--状态-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">状态：</label>
+                            <div class="formControls col-xs-8 col-sm-6 skin-minimal">
+                               <span class="select-box">
+                                  <select class="select" size="1" v-model="updShop.showStatus">
+                                    <option value="2" selected>请选择店铺状态</option>
+                                    <option value="1">启用</option>
+                                    <option value="0">禁用</option>
+                                  </select>
+                                </span>
+                            </div>
+                        </div>
+                        <!--店铺名称-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>店铺名称：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" v-model="updShop.shopName">
+                            </div>
+                        </div>
+                        <!--店铺简称-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>店铺简称：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" v-model="updShop.shortName">
+                            </div>
+                        </div>
+                        <!--月目标现金收入-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>月目标现金收入：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" v-model="updShop.monthCashIn">
+                            </div>
+                        </div>
+                        <!--月目标消耗收入-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>月目标消耗收入：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" v-model="updShop.monthExpendIn">
+                            </div>
+                        </div>
+                        <!--店铺标志----------------------------------------------->
+                        <!--                        <div class="row cl">-->
+                        <!--                            <label class="form-label col-xs-4 col-sm-2">店铺标志：</label>-->
+                        <!--                            <div class="formControls col-xs-8 col-sm-5">-->
+                        <!--                                <div class="uploader-thum-container">-->
+                        <!--                                    <div class="uploader-list"></div>-->
+                        <!--                                    <div>选择图片-->
+                        <!--                                        <button class="btn btn-default btn-uploadstar radius ml-10">-->
+                        <!--                                            开始上传-->
+                        <!--                                        </button>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--店铺封面图------------------------------------------------->
+                        <!--                        <div class="row cl">-->
+                        <!--                            <label class="form-label col-xs-4 col-sm-3">店铺封面图：</label>-->
+                        <!--                            <div class="formControls col-xs-8 col-sm-6">-->
+                        <!--                                <div class="uploader-thum-container">-->
+                        <!--                                    <div class="uploader-list"></div>-->
+                        <!--                                    <div>选择图片-->
+                        <!--                                        <button class="btn btn-default btn-uploadstar radius ml-10">-->
+                        <!--                                            开始上传-->
+                        <!--                                        </button>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--营业执照号-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>营业执照号：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" v-model="updShop.shopLicense">
+                            </div>
+                        </div>
+                        <!--营业时间--------------------------------------------------->
+                        <!--                        <div class="row cl">-->
+                        <!--                            <label class="form-label col-xs-4 col-sm-2">营业时间：</label>-->
+                        <!--                            <div class="formControls col-xs-8 col-sm-5">-->
+                        <!--                                <input type="text"-->
+                        <!--                                       onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'commentdatemax\')||\'%y-%M-%d\'}' })"-->
+                        <!--                                       class="input-text Wdate">-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--店铺面积-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>店铺面积：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" id="keywords" name="keywords" v-model="updShop.shopArea">
+                            </div>
+                        </div>
+                        <!--&lt;!&ndash;主营项目&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>主营项目：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" v-model="updShop.shopProject" class="input-text ">
+                            </div>
+                        </div>
+                        <!-- &lt;!&ndash;店铺类型&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">店铺类型：</label>
+                            <div class="formControls col-xs-8 col-sm-6 skin-minimal">
+                               <span class="select-box">
+                                  <select class="select" size="1" name="demo1" v-model="updShop.shopType">
+                                    <option value="0">请选择店铺类型</option>
+                                    <option value="1">美容</option>
+                                    <option value="2">22</option>
+                                  </select>
+                                </span>
+
+                            </div>
+                        </div>
+                        <!-- &lt;!&ndash;排序号&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">排序号：</label>
+                            <div class="formControls col-xs-8 col-sm-6 skin-minimal">
+                               <span class="select-box">
+                                  <select class="select" size="1" name="demo1" v-model="updShop.sortNo">
+                                    <option value="0">排序号</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                  </select>
+                                </span>
+                            </div>
+                        </div>
+                        <!--                        &lt;!&ndash;店铺电话&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>店铺电话：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" id="author" name="author" v-model="updShop.shopPhone">
+                            </div>
+                        </div>
+                        <!--                        &lt;!&ndash;店铺地址&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>店铺地址：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" name="sources" v-model="updShop.shopAddress">
+                            </div>
+                        </div>
+                        <!--                        &lt;!&ndash;地址X坐标&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>地址X坐标：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" id="sources" name="sources" v-model="updShop.gpsX">
+                            </div>
+                        </div>
+                        <!--                        &lt;!&ndash;地址Y坐标&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>地址Y坐标：</label>
+                            <div class="formControls col-xs-8 col-sm-6 skin-minimal">
+                                <input type="text" class="input-text" name="sources" v-model="updShop.gpsY">
+                            </div>
+                        </div>
+                        <!--                        &lt;!&ndash;备注&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">备注：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <div class="uploader-thum-container">
+                                    <textarea type="text" class="	textarea radius " v-model="updShop.shopRemark">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  &lt;!&ndash;店铺描述&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">店铺描述：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <div class="uploader-thum-container">
+                                    <textarea type="text" class="	textarea radius " v-model="updShop.shopIntro">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button"
+                            @click="updateShop(updShop)">确定
+                    </button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--    添加弹出框-->
+    <div id="modal-demo-add" class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content radius">
+                <!--标题-->
+                <div class="modal-header">
+                    <h3 class="modal-title">修改店铺信息</h3>
+                    <a class="close" data-dismiss="modal" aria-hidden="true" href="javascript:void();">×</a>
+                </div>
+                <!--主体-->
+                <div class="modal-body">
+                    <form class="form form-horizontal" id="">
+                        <!--店主账号-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>店主账号：</label>
+                            <div class="formControls col-xs-8 col-sm-6 skin-minimal">
+                               <span class="select-box">
+                                  <select class="select" size="1" id="account" v-model="addShop.bisShopUser.shopUserId">
+                                    <option value="0" selected>请选择店主账号</option>
+                                    <option v-for="a in accounts" v-text="a.account"  :value="a.shopUserId"></option>
+
+                                  </select>
+                                </span>
+                            </div>
+                        </div>
+                        <!--状态-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">状态：</label>
+                            <div class="formControls col-xs-8 col-sm-6 skin-minimal">
+                               <span class="select-box">
+                                  <select class="select" size="1" v-model="addShop.showStatus">
+                                    <option value="2" selected>请选择店铺状态</option>
+                                    <option value="1">启用</option>
+                                    <option value="0">禁用</option>
+                                  </select>
+                                </span>
+                            </div>
+                        </div>
+                        <!--店铺名称-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>店铺名称：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" v-model="addShop.shopName">
+                            </div>
+                        </div>
+                        <!--店铺简称-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>店铺简称：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" v-model="addShop.shortName">
+                            </div>
+                        </div>
+                        <!--月目标现金收入-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>月目标现金收入：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" v-model="addShop.monthCashIn">
+                            </div>
+                        </div>
+                        <!--月目标消耗收入-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>月目标消耗收入：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" v-model="addShop.monthExpendIn">
+                            </div>
+                        </div>
+                        <!--店铺标志----------------------------------------------->
+                        <!--                        <div class="row cl">-->
+                        <!--                            <label class="form-label col-xs-4 col-sm-2">店铺标志：</label>-->
+                        <!--                            <div class="formControls col-xs-8 col-sm-5">-->
+                        <!--                                <div class="uploader-thum-container">-->
+                        <!--                                    <div class="uploader-list"></div>-->
+                        <!--                                    <div>选择图片-->
+                        <!--                                        <button class="btn btn-default btn-uploadstar radius ml-10">-->
+                        <!--                                            开始上传-->
+                        <!--                                        </button>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--店铺封面图------------------------------------------------->
+                        <!--                        <div class="row cl">-->
+                        <!--                            <label class="form-label col-xs-4 col-sm-3">店铺封面图：</label>-->
+                        <!--                            <div class="formControls col-xs-8 col-sm-6">-->
+                        <!--                                <div class="uploader-thum-container">-->
+                        <!--                                    <div class="uploader-list"></div>-->
+                        <!--                                    <div>选择图片-->
+                        <!--                                        <button class="btn btn-default btn-uploadstar radius ml-10">-->
+                        <!--                                            开始上传-->
+                        <!--                                        </button>-->
+                        <!--                                    </div>-->
+                        <!--                                </div>-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--营业执照号-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>营业执照号：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" v-model="addShop.shopLicense">
+                            </div>
+                        </div>
+                        <!--营业时间--------------------------------------------------->
+                        <!--                        <div class="row cl">-->
+                        <!--                            <label class="form-label col-xs-4 col-sm-2">营业时间：</label>-->
+                        <!--                            <div class="formControls col-xs-8 col-sm-5">-->
+                        <!--                                <input type="text"-->
+                        <!--                                       onfocus="WdatePicker({ dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'commentdatemax\')||\'%y-%M-%d\'}' })"-->
+                        <!--                                       class="input-text Wdate">-->
+                        <!--                            </div>-->
+                        <!--                        </div>-->
+                        <!--店铺面积-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>店铺面积：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" id="keywords" name="keywords" v-model="addShop.shopArea">
+                            </div>
+                        </div>
+                        <!--&lt;!&ndash;主营项目&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>主营项目：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" v-model="addShop.shopProject" class="input-text ">
+                            </div>
+                        </div>
+                        <!-- &lt;!&ndash;店铺类型&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">店铺类型：</label>
+                            <div class="formControls col-xs-8 col-sm-6 skin-minimal">
+                               <span class="select-box">
+                                  <select class="select" size="1" name="demo1" v-model="addShop.shopType">
+                                    <option value="0">请选择店铺类型</option>
+                                    <option value="1">美容</option>
+                                    <option value="2">22</option>
+                                  </select>
+                                </span>
+
+                            </div>
+                        </div>
+                        <!-- &lt;!&ndash;排序号&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">排序号：</label>
+                            <div class="formControls col-xs-8 col-sm-6 skin-minimal">
+                               <span class="select-box">
+                                  <select class="select" size="1" name="demo1" v-model="addShop.sortNo">
+                                    <option value="0">排序号</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                  </select>
+                                </span>
+                            </div>
+                        </div>
+                        <!--                        &lt;!&ndash;店铺电话&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>店铺电话：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" id="author" name="author" v-model="addShop.shopPhone">
+                            </div>
+                        </div>
+                        <!--                        &lt;!&ndash;店铺地址&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>店铺地址：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text" name="sources" v-model="addShop.shopAddress">
+                            </div>
+                        </div>
+                        <!--                        &lt;!&ndash;地址X坐标&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>地址X坐标：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <input type="text" class="input-text"  name="sources" v-model="addShop.gpsX">
+                            </div>
+                        </div>
+                        <!--                        &lt;!&ndash;地址Y坐标&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>地址Y坐标：</label>
+                            <div class="formControls col-xs-8 col-sm-6 skin-minimal">
+                                <input type="text" class="input-text" name="sources" v-model="addShop.gpsY">
+                            </div>
+                        </div>
+                        <!--                        &lt;!&ndash;备注&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">备注：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <div class="uploader-thum-container">
+                                    <textarea type="text" class="	textarea radius " v-model="addShop.shopRemark">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  &lt;!&ndash;店铺描述&ndash;&gt;-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">店铺描述：</label>
+                            <div class="formControls col-xs-8 col-sm-6">
+                                <div class="uploader-thum-container">
+                                    <textarea type="text" class="	textarea radius " v-model="addShop.shopIntro">
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button"
+                            @click="addShopFunc(addShop)">确定
+                    </button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 
@@ -164,8 +615,22 @@
             shops: [],
             /*多条件查询*/
             shop: {
-                 bisShopUser: {}
+                bisShopUser: {}
             },
+            updShop: {
+                bisShopUser: {}
+            },
+            updatedShop: {},
+            addShop: {
+                showStatus:'2',
+                sortNo:'0',
+                bisShopUser: {
+                    shopUserId:'0',
+                },
+                shopType: '0',
+            },
+            /*店主账号*/
+            accounts: []
         },
         methods: {
             getCond(shop) {
@@ -181,14 +646,93 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+            },
+            deleteShop() {
+                var flag = false;
+                $(".ids").each(function () {
+                    if (this.checked) {
+                        flag = true;
+                    }
+                });
+                if (flag) {
+                    var ids = $("#form").serialize();
+
+                    var that = this;
+                    axios.post('delShopByShopId', ids)
+                        .then(function (response) {
+                            console.log(response);
+                            that.shops = response.data;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                } else {
+                    alert("请选择要删除的店铺!");
+                }
+            },
+            /*修改模态框*/
+            showUpdModel(shop) {
+                this.updShop = shop;
+                $("#modal-demo").modal("show");
+            },
+            /*修改*/
+            updateShop(updShop) {
+                this.updatedShop = updShop;
+                var that = this;
+                axios.post('updShop', this.updatedShop)
+                    .then(function (response) {
+                        that.shops = response.data;
+                        $("#modal-demo").modal("hide");
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            delShop(shopId) {
+                var that = this;
+                axios.post('delShopById?shopId=' + shopId)
+                    .then(function (response) {
+                        console.log(response);
+                        that.shops = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            /*添加模态框*/
+            showAddModel() {
+                $("#modal-demo-add").modal("show");
+            },
+            /*添加功能*/
+            addShopFunc(addShop) {
+                this.addShop = addShop;
+                var id = $("#account").val();
+                this.addShop.bisShopUser.shopUserId = id;
+                var that = this;
+                axios.post('addShop', this.addShop)
+                    .then(function (response) {
+                        console.log(response);
+                        that.shops = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
             }
         },
         created() {
             var that = this;
             axios.get('findAllShops')
                 .then(function (response) {
-                    console.log(response);
+                    console.log("shops:"+response);
                     that.shops = response.data;
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+            axios.get('getAccounts')
+                .then(function (response) {
+                    console.log(response);
+                    that.accounts = response.data;
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -206,6 +750,13 @@
     //         {"orderable": false, "aTargets": [0, 8]}// 不参与排序的列
     //     ]
     // });
+
+    /*系统-栏目-添加--------------------------------------------------*/
+    function system_category_add(title, url, w, h) {
+        layer_show(title, url, w, h);
+    }
+
+    /*系统-栏目-添加--------------------------------------------------*/
 
     /*资讯-添加*/
     function article_add(title, url, w, h) {

@@ -31,7 +31,7 @@ public interface BisShopUserMapper {
      *
      * @return BisShopUser
      */
-    BisShopUser getOwnerByShopId();
+    BisShopUser getOwnerByShopId(String shopUserId);
 
 
     /**
@@ -63,4 +63,25 @@ public interface BisShopUserMapper {
      * @return List<BisShopUser>
      */
     List<BisShopUser> getOwnersByCond(BisShopUser bisShopUser);
+
+    /**
+     * del owner by id
+     *
+     * @param id
+     */
+    void delOwner(String id);
+
+    /**
+     * get the number of owners
+     *
+     * @return count
+     */
+    Integer getOwnerCount();
+
+    /**
+     * get accounts
+     *
+     * @return List<String>
+     */
+    List<BisShopUser> getAccounts();
 }

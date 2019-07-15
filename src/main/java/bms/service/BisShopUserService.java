@@ -12,6 +12,13 @@ import java.util.List;
  * Time: 15:51
  */
 public interface BisShopUserService {
+
+    /**
+     * get accounts
+     * @return  List<String>
+     */
+    List<BisShopUser> getAccounts();
+
     /**
      * find all owners
      *
@@ -41,4 +48,41 @@ public interface BisShopUserService {
      * @return List<BisShopUser>
      */
     List<BisShopUser> getOwnersByCond(BisShopUser bisShopUser);
+
+    /**
+     * del owner by id
+     *
+     * @param id
+     */
+    void delOwner(String id);
+
+    /**
+     * del owner by id
+     *
+     * @param id
+     */
+    void delOwnerById(String shopUserId);
+
+    /**
+     * get the number of owners
+     *
+     * @return count
+     */
+    String getOwnerCount();
+
+    /**
+     * upd owner info
+     *
+     * @param bisShopUser
+     */
+    void updateOwner(BisShopUser bisShopUser);
+
+    /**
+     * add owner
+     *
+     * @param bisShopUser
+     */
+    void addOwner(BisShopUser bisShopUser);
+
+
 }

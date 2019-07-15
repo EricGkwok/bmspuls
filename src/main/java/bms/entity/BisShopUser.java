@@ -155,4 +155,6 @@ public class BisShopUser implements Serializable {
     private BisShop bisShop;
 
     private static final long serialVersionUID = 1L;
+
+
 }

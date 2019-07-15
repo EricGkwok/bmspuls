@@ -22,8 +22,35 @@ public interface BisShopService {
     /**
      * find shops by condition
      *
-     * @return
      * @param bisShop
+     * @return
      */
     List<BisShop> getShopsByCond(BisShop bisShop);
+
+
+    /**
+     * add bisshop
+     *
+     * @param bisShop
+     */
+    void addBisShop(BisShop bisShop);
+
+    /**
+     * delete bisshop by shopid
+     *
+     * @param shopId
+     */
+    void hideShopByShopId(String shopId);
+
+    /**
+     * del shop by id
+     * @param shopId
+     */
+    void delShopById(String shopId);
+
+    /**
+     * upd shop
+     * @param bisShop
+     */
+    void updateShop(BisShop bisShop);
 }

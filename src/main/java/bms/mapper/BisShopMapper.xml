@@ -63,15 +63,17 @@
         from bis_shop
         where shop_id = #{shopId,jdbcType=VARCHAR}
     </select>
+
+    <!--delete shop by shopid-->
     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-        <!--@mbg.generated-->
         delete from bis_shop
         where shop_id = #{shopId,jdbcType=VARCHAR}
     </delete>
+
+    <!--add shop-->
     <insert id="insert" keyColumn="shop_id" keyProperty="shopId"
             parameterType="bms.entity.BisShop" useGeneratedKeys="true">
-        <!--@mbg.generated-->
-        insert into bis_shop (shop_user_id, shop_name, short_name,
+        insert into bis_shop ( shop_name, short_name,
         month_cash_in, month_expend_in, shop_license,
         shop_image, shop_detail_image, gps_x,
         gps_y, sort_no, shop_address,
@@ -81,7 +83,8 @@
         begin_time, end_time, create_time,
         create_user_id, modify_time, modify_user_id
         )
-        values (#{shopUserId,jdbcType=VARCHAR}, #{shopName,jdbcType=VARCHAR},
+        values (
+        #{shopName,jdbcType=VARCHAR},
         #{shortName,jdbcType=VARCHAR},
         #{monthCashIn,jdbcType=DOUBLE}, #{monthExpendIn,jdbcType=DOUBLE},
         #{shopLicense,jdbcType=VARCHAR},
@@ -93,14 +96,17 @@
         #{shopArea,jdbcType=DOUBLE},
         #{shopProject,jdbcType=VARCHAR}, #{shopType,jdbcType=VARCHAR},
         #{shopIntro,jdbcType=LONGVARCHAR},
-        #{showStatus,jdbcType=VARCHAR}, #{isDel,jdbcType=VARCHAR},
+        #{showStatus,jdbcType=VARCHAR}, '0',
         #{shopRemark,jdbcType=VARCHAR},
-        #{beginTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR},
-        #{createTime,jdbcType=TIMESTAMP},
-        #{createUserId,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP},
+        #{beginTime,jdbcType=VARCHAR},
+        #{endTime,jdbcType=VARCHAR},
+        NOW(),
+        #{createUserId,jdbcType=VARCHAR},
+        #{modifyTime,jdbcType=TIMESTAMP},
         #{modifyUserId,jdbcType=VARCHAR}
         )
     </insert>
+
     <insert id="insertSelective" keyColumn="shop_id" keyProperty="shopId"
             parameterType="bms.entity.BisShop" useGeneratedKeys="true">
         <!--@mbg.generated-->
@@ -272,6 +278,8 @@
             </if>
         </trim>
     </insert>
+
+    <!--upd shop-->
     <update id="updateByPrimaryKeySelective" parameterType="bms.entity.BisShop">
         <!--@mbg.generated-->
         update bis_shop
@@ -395,7 +403,7 @@
 
     <!--search for all shops-->
     <select id="findAllShops" resultMap="shops_map">
-      select * from bis_shop
+      select * from bis_shop where is_del = 0
     </select>
     <resultMap id="shops_map" type="bms.entity.BisShop">
         <id column="shop_id" jdbcType="VARCHAR" property="shopId"/>
@@ -437,7 +445,7 @@
                 property="modifyTime"/>
         <result column="modify_user_id" jdbcType="VARCHAR"
                 property="modifyUserId"/>
-        <association property="bisShopUser" column="shop_id"
+        <association property="bisShopUser" column="shop_user_id"
                      javaType="bms.entity.BisShopUser"
                      select="bms.mapper.BisShopUserMapper.getOwnerByShopId"/>
     </resultMap>
@@ -445,16 +453,19 @@
 
     <!--search for shops by shopname-->
     <select id="selectByShopName" resultMap="BaseResultMap">
-        select * from bis_shop where shop_name like concat('%',#{shopName} ,'%')
+        select * from bis_shop where shop_name like concat('%',#{shopName}
+        ,'%') and is_del = 0;
     </select>
     <!--search for shops by shopid-->
     <select id="getNameByShopId" resultMap="BaseResultMap">
-        select * from bis_shop where shop_id = #{shopId}
+        select * from bis_shop where shop_id = #{shopId} and is_del = 0
     </select>
 
     <!--find shops by condition-->
     <select id="getShopsByCond" resultMap="getShopsBycond_map">
-        select bis_shop.*,bis_shop_user.* from bis_shop,bis_shop_user where bis_shop.shop_user_id = bis_shop_user.shop_user_id
+        select bis_shop.*,bis_shop_user.* from bis_shop,bis_shop_user where
+        bis_shop.shop_user_id = bis_shop_user.shop_user_id and
+        bis_shop.is_del = 0
         <if test="shopId != null">
             AND bis_shop.shop_id like concat('%',#{shopId },'%')
         </if>
@@ -518,8 +529,16 @@
         <result column="modify_user_id" jdbcType="VARCHAR"
                 property="modifyUserId"/>
         <association property="bisShopUser"
-                     javaType="bms.entity.BisShopUser" column="shop_id"
+                     javaType="bms.entity.BisShopUser" column="shop_user_id"
                      select="bms.mapper.BisShopUserMapper.getOwnerByShopId"/>
     </resultMap>
+
+    <!--隐藏店铺-->
+    <update id="hideShopByShopId" parameterType="string">
+        update bis_shop set is_del = 1 where shop_id = #{shopId}
+    </update>
+
+
+
 </mapper>
 

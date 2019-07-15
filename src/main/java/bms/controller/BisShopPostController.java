@@ -42,7 +42,7 @@ public class BisShopPostController {
     @RequestMapping("getPostsByCond")
     @ResponseBody
     public List<BisShopPost> getPostsByCond(@RequestBody(required = false) BisShopPost bisShopPost) {
-        System.out.println("bisShopPost = " + bisShopPost);
+        //System.out.println("bisShopPost = " + bisShopPost);
         List<BisShopPost> posts = bisShopPostService.getPostsByCond(bisShopPost);
         return posts;
     }

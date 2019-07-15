@@ -14,6 +14,12 @@ import java.util.List;
  */
 //@Mapper
 public interface BisShopMapper {
+
+    /**
+     * delete shop by shopid
+     *
+     * @param shopId
+     */
     int deleteByPrimaryKey(String shopId);
 
     int insert(BisShop record);
@@ -50,8 +56,24 @@ public interface BisShopMapper {
     /**
      * find shops by condition
      *
-     * @return List<BisShop>
      * @param bisShop
+     * @return List<BisShop>
      */
     List<BisShop> getShopsByCond(BisShop bisShop);
+
+    /**
+     * add shop
+     *
+     * @param bisShop
+     */
+    void addShop(BisShop bisShop);
+
+    /**
+     * 隐藏店铺
+     *
+     * @param shopId
+     */
+    void hideShopByShopId(String  shopId);
+
+    void updateShop(BisShop bisShop);
 }

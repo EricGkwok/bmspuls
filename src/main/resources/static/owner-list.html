@@ -30,7 +30,7 @@
     <script src="vue/axios.min.js"></script>
     <script src="vue/vue.min.js"></script>
     <!--vue-->
-    <title>店铺列表</title>
+    <title>店主列表</title>
     <style>
         #div1 {
             margin-top: 8px;
@@ -39,17 +39,13 @@
     </style>
 </head>
 <body>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span
-        class="c-gray en">&gt;</span> 商家管理 <span class="c-gray en">&gt;</span>
-    店主列表 <a class="btn btn-success radius r"
-            style="line-height:1.6em;margin-top:3px"
-            href="javascript:location.replace(location.href);" title="刷新"><i
-            class="Hui-iconfont">&#xe68f;</i></a></nav>
+<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i>
+    首页 <span class="c-gray en">&gt;</span> 商家管理 <span class="c-gray en">&gt;</span>
+    店主列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新"><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 
 
 <div class="page-container" id="table">
     <!--多条件查询/-->
-
     <div class="text-c">
         <div>
             店主账号:&nbsp;<input type="text" name="shopId" placeholder=" 店主账号"
@@ -95,65 +91,430 @@
             关闭选项卡
         </button>
     </div>
-
     <!--多条件查询/-->
 
     <!--crud-->
-    <div class="cl pd-5 bg-1 bk-gray mt-20"><span class="l"><a
-            href="javascript:;" onclick="datadel()"
-            class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i>批量删除</a> <a
-            class="btn btn-primary radius" data-title="新增"
-            data-href="business-add.html" onclick="Hui_admin_tab(this)"
-            href="javascript:;"><i
-            class="Hui-iconfont">&#xe600;</i>新增</a></span> <span class="r">
-        共有数据：<strong>54</strong> 条</span>
+    <div class="cl pd-5 bg-1 bk-gray mt-20">
+        <span class="l">
+            <!--批量删除-->
+        <a href="javascript:;" @click="deleteOwner()"
+           class="btn btn-danger radius">
+            <i class="Hui-iconfont">&#xe6e2;</i>批量删除</a>
+            <!--添加-->
+		<a class="btn btn-primary radius"
+           @click="addOwnersModal()"
+           href="javascript:;">
+            <i class="Hui-iconfont">&#xe600;</i>添加</a>
+            <!--密码重置-->
+            <a class="btn btn-warning-outline radius"
+               @click="changePwd()"
+               href="javascript:;">
+            <i class="Hui-iconfont">&#xe63f;</i>密码重置</a>
+        </span>
+
+        <span class="r">
+        共有数据：<strong v-model="" v-text=""></strong> 条
+        </span>
     </div>
     <!--crud-->
 
     <!--表格-->
     <div class="mt-20">
-        <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
-            <thead>
-            <tr class="text-c">
-                <th width="25"><input type="checkbox" name="" value=""></th>
-                <th width="80">店主账号</th>
-                <th width="80">姓名</th>
-                <th width="80">性别</th>
-                <th width="80">手机</th>
-                <th width="100">身份证</th>
-                <th width="100">邮箱</th>
-                <th width="80">电话</th>
-                <th width="40">状态</th>
-                <th width="120">创建时间</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="text-c" v-for="owner in owners">
-                <td><input type="checkbox" value="" name=""></td>
-                <td>{{owner.account}}</td><!--账号-->
-                <td>{{owner.username}}</td><!--姓名-->
+        <form id="form">
+            <table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
+                <thead>
+                <tr class="text-c">
+                    <th width="25"><input type="checkbox"></th>
+                    <th width="80">店主账号</th>
+                    <th width="80">姓名</th>
+                    <th width="80">性别</th>
+                    <th width="80">手机</th>
+                    <th width="110">身份证</th>
+                    <th width="100">邮箱</th>
+                    <th width="80">电话</th>
+                    <th width="40">状态</th>
+                    <th width="100">创建时间</th>
+                    <th width="100">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-c" v-for="owner in owners">
+                    <td><input type="checkbox" class="ids" name="ownerIds"
+                               :value="owner.shopUserId"></td>
+                    <td>{{owner.account}}</td><!--账号-->
+                    <td>{{owner.username}}</td><!--姓名-->
 
-                <td v-if="owner.sex == '1'">男</td><!--性别-->
-                <td v-else-if="owner.sex == '2'">女</td><!--性别-->
-                <td v-else>未知</td><!--性别-->
+                    <td v-if="owner.sex == '1'">男</td><!--性别-->
+                    <td v-else-if="owner.sex == '2'">女</td><!--性别-->
+                    <td v-else>未知</td><!--性别-->
 
-                <td>{{owner.mobile}}</td><!--手机-->
-                <td>{{owner.idno}}</td><!--身份证-->
-                <td>{{owner.email}}</td><!--邮箱-->
-                <td>{{owner.phone}}</td><!--电话-->
+                    <td>{{owner.mobile}}</td><!--手机-->
+                    <td>{{owner.idno}}</td><!--身份证-->
+                    <td>{{owner.email}}</td><!--邮箱-->
+                    <td>{{owner.phone}}</td><!--电话-->
 
-                <td v-if="owner.status==1">在职</td><!--状态-->
-                <td v-else>离职</td><!--状态-->
+                    <td v-if="owner.status==1">在职</td><!--状态-->
+                    <td v-else>离职</td><!--状态-->
 
-                <td>{{owner.createTime}}</td><!--创建时间-->
-            </tr>
-            </tbody>
-        </table>
+                    <td>{{owner.createTime}}</td><!--创建时间-->
+                    <td class="f-14">
+                        <a title="编辑" href="javascript:;" v-model="owner.shopUserId" @click="showModal(owner)" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
+                        <a title="删除" href="javascript:;" @click="delOwnerById(owner.shopUserId)" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
     </div>
     <!--表格/-->
+
+    <!--密码重置-->
+    <div id="modal-demo3" class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content radius">
+                <!--标题-->
+                <div class="modal-header">
+                    <h3 class="modal-title">密码重置</h3>
+                    <a class="close" data-dismiss="modal" aria-hidden="true"
+                       href="javascript:void();">×</a>
+                </div>
+                <!--主体-->
+                <div class="modal-body">
+                    <form class="form form-horizontal">
+
+                        <!--密码-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>密码：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       placeholder="密码">
+                            </div>
+                        </div>
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>确认密码：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       placeholder="确认密码">
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button">确定
+                    </button>
+                    <button class="btn" data-dismiss="modal"
+                            aria-hidden="true">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--添加弹出框-->
+    <div id="modal-demo2" class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content radius">
+                <!--标题-->
+                <div class="modal-header">
+                    <h3 class="modal-title">添加新店主</h3>
+                    <a class="close" data-dismiss="modal" aria-hidden="true"
+                       href="javascript:void();">×</a>
+                </div>
+                <!--主体-->
+                <div class="modal-body">
+                    <form class="form form-horizontal" id="form-article-add2">
+                        <!--店主账号-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>店主账号：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7 skin-minimal">
+                                <input type="text" class="input-text"
+                                       v-model="addOwner.account"
+                                       placeholder="店主账号">
+                            </div>
+                        </div>
+                        <!--店主姓名-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>姓名：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       v-model="addOwner.username"
+                                       placeholder="店主姓名">
+                            </div>
+                        </div>
+                        <!--密码-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>密码：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       placeholder="密码"
+                                       v-model="addOwner.password">
+                            </div>
+                        </div>
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>确认密码：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       placeholder="确认密码" v-model="addOwner.password">
+                            </div>
+                        </div>
+                        <!--性别-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>性别：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                        <span class="select-box">
+                          <select class="select" size="1"
+                                  v-model="addOwner.sex">>
+                              <option value="-1">您的性别</option>
+                            <option value="1">男</option>
+                            <option value="2">女</option>
+                            <option value="0">保密</option>
+                          </select>
+                        </span>
+                            </div>
+                        </div>
+                        <!--手机号码-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>手机号码：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       placeholder="手机号码"
+                                       v-model="addOwner.mobile">
+                            </div>
+                        </div>
+                        <!--身份证-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>身份证：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       placeholder="身份证"
+                                       v-model="addOwner.idno">
+                            </div>
+                        </div>
+                        <!--邮箱-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>邮箱：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       placeholder="邮箱"
+                                       v-model="addOwner.email">
+                            </div>
+                        </div>
+                        <!--电话-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>电话：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       placeholder="电话"
+                                       v-model="addOwner.phone">
+                            </div>
+                        </div>
+                        <!--状态-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">状态：</label>
+                            <div class="formControls col-xs-8 col-sm-7 skin-minimal">
+                       <span class="select-box">
+                          <select class="select" size="1" name="demo1"
+                                  v-model="addOwner.status">
+                            <option value="2">请选择店铺状态</option>
+                            <option value="1">启用</option>
+                            <option value="0">禁用</option>
+                          </select>
+                        </span>
+
+                            </div>
+                        </div>
+                        <!--备注-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>备注：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <textarea type="text" v-model="addOwner.remark"
+                                          class="	textarea radius ">
+                                </textarea>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button" @click="addOwnerFunc(addOwner)">确定
+                    </button>
+                    <button class="btn" data-dismiss="modal"
+                            aria-hidden="true">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--修改弹出框-->
+    <div id="modal-demo" class="modal fade" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content radius">
+                <!--标题-->
+                <div class="modal-header">
+                    <h3 class="modal-title">修改店主信息</h3>
+                    <a class="close" data-dismiss="modal" aria-hidden="true"
+                       href="javascript:void();">×</a>
+                </div>
+                <!--主体-->
+                <div class="modal-body">
+                    <form class="form form-horizontal" id="form-article-add">
+                        <!--店主账号-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>店主账号：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7 skin-minimal">
+                                <input type="text" class="input-text"
+                                       v-model="updOwner.account"
+                                       disabled="disabled">
+                            </div>
+                        </div>
+                        <!--店主姓名-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>姓名：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       v-model="updOwner.username"
+                                       placeholder="">
+                            </div>
+                        </div>
+                        <!--性别-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>性别：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                        <span class="select-box">
+                          <select class="select" size="1"
+                                  v-model="updOwner.sex">
+                            <option :value="1">男</option>
+                            <option :value="2">女</option>
+                            <option :value="0">保密</option>
+                          </select>
+                        </span>
+                            </div>
+                        </div>
+                        <!--手机号码-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>手机号码：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       v-model="updOwner.mobile"
+                                       placeholder="">
+                            </div>
+                        </div>
+                        <!--身份证-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>身份证：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       v-model="updOwner.idno"
+                                       disabled="disabled">
+                            </div>
+                        </div>
+                        <!--邮箱-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>邮箱：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text"
+                                       v-model="updOwner.email"
+                                       placeholder="">
+                            </div>
+                        </div>
+                        <!--电话-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>电话：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <input type="text" class="input-text" value=""
+                                       placeholder=""
+                                       id="keywords" name="keywords"
+                                       v-model="updOwner.phone">
+                            </div>
+                        </div>
+                        <!--状态-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">状态：</label>
+                            <div class="formControls col-xs-8 col-sm-7 skin-minimal">
+                       <span class="select-box">
+                          <select class="select" size="1" name="demo1"
+                                  v-model="updOwner.status">
+                            <option value="2">请选择店铺状态</option>
+                            <option value="1">在职</option>
+                            <option value="0">离职</option>
+                          </select>
+                        </span>
+
+                            </div>
+                        </div>
+                        <!--备注-->
+                        <div class="row cl">
+                            <label class="form-label col-xs-4 col-sm-3">
+                                <span class="c-red">*</span>备注：
+                            </label>
+                            <div class="formControls col-xs-8 col-sm-7">
+                                <textarea type="text"
+                                          class="	textarea radius ">
+                                </textarea>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" type="button"
+                            @click="updateOwner(updOwner)">确定
+                    </button>
+                    <button class="btn" data-dismiss="modal"
+                            aria-hidden="true">
+                        关闭
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-
 <!--_footer 作为公共模版分离出去-->
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
@@ -174,14 +535,23 @@
         data: {
             /*all owners list*/
             owners: [],
-            owner: {}
+            owner: {},
+            /*模态框显示*/
+            updOwner: {},
+            size: '',
+            /*修改后*/
+            ownerUpdated: {},
+            addOwner: {
+                status:'2',
+                sex:'-1'
+            }
         },
         methods: {
+            /*条件查询*/
             getCond(owner) {
                 this.owner = owner;
                 var status = $("#sel").val();
                 this.owner.status = status;
-                //alert(this.owner.status);
                 var that = this;
                 axios.post('getOwnersByCond', this.owner)
                     .then(function (response) {
@@ -191,6 +561,87 @@
                     .catch(function (error) {
                         console.log(error);
                     });
+            },
+            /*添加-模态框*/
+            addOwnersModal() {
+                $("#modal-demo2").modal("show");
+            },
+            /*添加*/
+            addOwnerFunc(addOwner){
+                this.addOwner = addOwner;
+                var that = this;
+                axios.post('addOwner', this.addOwner)
+                    .then(function (response) {
+                        console.log(response);
+                        that.owners = response.data;
+                        $("#modal-demo2").modal("hide");
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            /*批量删除*/
+            deleteOwner() {
+                var flag = false;
+                $(".ids").each(function () {
+                    if (this.checked) {
+                        flag = true;
+                    }
+                });
+                if (flag) {
+                    var ids = $("#form").serialize();
+                    alert(ids);
+                    var that = this;
+                    axios.post('delOwner', ids)
+                        .then(function (response) {
+                            console.log(response);
+                            that.owners = response.data;
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+                } else {
+                    alert("请选择要删除的店主账号!");
+                }
+
+
+
+            },
+            /*删除*/
+            delOwnerById(shopUserId) {
+                var that = this;
+                axios.post('delOwnerById?shopUserId=' + shopUserId)
+                    .then(function (response) {
+                        console.log(response);
+                        that.owners = response.data;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+
+
+            },
+            /*修改模态框*/
+            showModal(owner) {
+                this.updOwner = owner;
+                $("#modal-demo").modal("show");
+            },
+            /*修改*/
+            updateOwner(updOwner) {
+                this.ownerUpdated = updOwner;
+                axios.post('updOwner', this.ownerUpdated)
+                    .then(function (response) {
+                        $("#modal-demo").modal("hide");
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+            },
+            /*密码重置*/
+            changePwd() {
+                $("#modal-demo3").modal("show");
             }
         },
         created() {
@@ -203,8 +654,17 @@
                 .catch(function (error) {
                     console.log(error);
                 });
+            // axios.get('getOwnerCount')
+            //     .then(function (response) {
+            //         console.log(response);
+            //         that.size = response.data;
+            //     })
+            //     .catch(function (error) {
+            //         console.log(error);
+            //     });
         }
     });
+
 
     /*---------------------------------------------------------------------*/
     // $('.table-sort').dataTable({
